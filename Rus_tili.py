@@ -9,7 +9,7 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-# 2. Streamlit'ning qora ramkasi, padding va marginlarini to'liq yo'qotish
+# 2. Streamlit hoshiyalarini to'liq olib tashlash
 st.markdown("""
     <style>
         header {visibility: hidden !important;}
@@ -35,7 +35,7 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# 3. Rodlar ostida 20 tadan gap (jami 60 ta gap) bilan kengaytirilgan veb-kod
+# 3. Yangilangan veb-kod
 app_html = """
 <!DOCTYPE html>
 <html lang="uz">
@@ -86,7 +86,7 @@ app_html = """
                 <i class="fas fa-pen-nib text-amber-500"></i> Yozma Harflar
             </button>
             <button onclick="switchTab('gender')" id="tab-gender" class="px-3.5 py-2 rounded-xl text-xs sm:text-sm font-extrabold bg-white text-slate-600 hover:bg-slate-100">
-                <i class="fas fa-venus-mars text-indigo-500"></i> Rodlar va 60 ta Gap
+                <i class="fas fa-venus-mars text-indigo-500"></i> Род имён существительных
             </button>
             <button onclick="switchTab('texts')" id="tab-texts" class="px-3.5 py-2 rounded-xl text-xs sm:text-sm font-extrabold bg-white text-slate-600 hover:bg-slate-100">
                 <i class="fas fa-book-reader text-sky-500"></i> 50 Matn
@@ -103,13 +103,13 @@ app_html = """
         <section id="section-alphabet" class="space-y-4">
             <div class="bg-white/90 p-5 rounded-2xl border-2 border-emerald-100 shadow-sm flex flex-wrap justify-between items-center gap-2">
                 <div>
-                    <h2 class="text-xl font-black text-slate-800">Rus Alifbosi (33 ta Harf)</h2>
-                    <p class="text-xs text-slate-600">Harfni eshitish uchun uning ustiga bosing!</p>
+                    <h2 class="text-xl font-black text-slate-800">Русский алфавит (33 буквы)</h2>
+                    <p class="text-xs text-slate-600">Нажмите на карточку или значок звука, чтобы услышать произношение!</p>
                 </div>
                 <div class="flex gap-2 text-xs font-bold">
-                    <span class="px-3 py-1 bg-rose-100 text-rose-700 rounded-full">10 ta Unli</span>
-                    <span class="px-3 py-1 bg-sky-100 text-sky-700 rounded-full">21 ta Undosh</span>
-                    <span class="px-3 py-1 bg-amber-100 text-amber-700 rounded-full">2 ta Belgi</span>
+                    <span class="px-3 py-1 bg-rose-100 text-rose-700 rounded-full">10 Гласных</span>
+                    <span class="px-3 py-1 bg-sky-100 text-sky-700 rounded-full">21 Согласная</span>
+                    <span class="px-3 py-1 bg-amber-100 text-amber-700 rounded-full">2 Знака</span>
                 </div>
             </div>
             <div id="alphabet-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3"></div>
@@ -118,9 +118,9 @@ app_html = """
         <!-- 2. YOZMA DOSKA -->
         <section id="section-write" class="hidden space-y-4">
             <div class="bg-white/90 p-4 rounded-2xl border-2 border-amber-200 flex flex-wrap justify-between items-center gap-2">
-                <h2 class="text-lg font-black text-slate-800">Yozma Shaklda Yozish (Propis)</h2>
+                <h2 class="text-lg font-black text-slate-800">Письменные буквы (Пропись)</h2>
                 <div class="flex items-center gap-2">
-                    <label class="text-xs font-bold text-slate-700">Harfni tanlang:</label>
+                    <label class="text-xs font-bold text-slate-700">Выберите букву:</label>
                     <select id="letter-select" onchange="changeCanvasLetter(this.value)" class="bg-amber-50 border-2 border-amber-300 font-extrabold text-amber-700 rounded-xl px-3 py-1.5 text-sm"></select>
                 </div>
             </div>
@@ -139,8 +139,8 @@ app_html = """
                             <button onclick="setStrokeColor('#1e293b')" class="w-6 h-6 rounded-full bg-slate-800"></button>
                         </div>
                         <div class="flex gap-2">
-                            <button onclick="clearCanvas()" class="px-3 py-1 bg-rose-100 text-rose-700 rounded-lg text-xs font-bold">Tozalash</button>
-                            <button onclick="speakCurrentCanvasLetter()" class="px-3 py-1 bg-emerald-100 text-emerald-700 rounded-lg text-xs font-bold">Eshitish</button>
+                            <button onclick="clearCanvas()" class="px-3 py-1 bg-rose-100 text-rose-700 rounded-lg text-xs font-bold">Очистить</button>
+                            <button onclick="speakCurrentCanvasLetter()" class="px-3 py-1 bg-emerald-100 text-emerald-700 rounded-lg text-xs font-bold">Слушать</button>
                         </div>
                     </div>
                 </div>
@@ -148,7 +148,7 @@ app_html = """
                 <div class="bg-white rounded-2xl p-5 border shadow-sm flex flex-col justify-between">
                     <div>
                         <div class="flex justify-between items-center mb-2">
-                            <span id="canvas-card-badge" class="px-2.5 py-0.5 bg-rose-100 text-rose-700 text-xs font-bold rounded-full">UNLI</span>
+                            <span id="canvas-card-badge" class="px-2.5 py-0.5 bg-rose-100 text-rose-700 text-xs font-bold rounded-full">ГЛАСНАЯ</span>
                             <span class="text-xs font-bold text-amber-600">Пропись</span>
                         </div>
                         <div class="text-center p-3 bg-slate-50 rounded-2xl my-2">
@@ -166,28 +166,28 @@ app_html = """
             </div>
         </section>
 
-        <!-- 3. RODLAR VA 60 TA GAP BO'LIMI -->
+        <!-- 3. RODLAR (RUS TILIDA SARLAVHALAR VA 60 TA GAP) -->
         <section id="section-gender" class="hidden space-y-6">
             <div class="bg-white/90 p-5 rounded-2xl border-2 border-indigo-100 shadow-sm flex flex-wrap justify-between items-center gap-2">
                 <div>
-                    <h2 class="text-xl font-black text-slate-800">Rus Tilida Otlarning Rodlari va 60 ta Namunaviy Gap</h2>
-                    <p class="text-xs text-slate-600 mt-1">Har bir rod qoidalari, unga mos qo'shimchalar va 20 tadan ovozli namunaviy gaplar:</p>
+                    <h2 class="text-xl font-black text-slate-800">Род имён существительных в русском языке</h2>
+                    <p class="text-xs text-slate-600 mt-1">Правила, окончания и по 20 озвученных примеров предложений для каждого рода:</p>
                 </div>
                 <div class="text-xs font-bold bg-indigo-50 text-indigo-700 px-3.5 py-2 rounded-xl border border-indigo-100">
-                    Savoli: <span class="font-extrabold">Он / Она / Оно?</span>
+                    Вопросы: <span class="font-extrabold">Он мой? / Она моя? / Оно моё?</span>
                 </div>
             </div>
 
-            <!-- Rodlar tushuntirish kartalari -->
+            <!-- Qoidalar kartalari -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div class="bg-white p-5 rounded-2xl border-t-8 border-sky-500 border shadow-sm">
                     <h3 class="text-lg font-black text-sky-600 mb-1 flex items-center justify-between">
                         <span>Мужской род (ОН)</span>
                         <span class="text-xs bg-sky-100 text-sky-700 px-2 py-0.5 rounded-lg">Этот / Мой</span>
                     </h3>
-                    <p class="text-xs text-slate-500 mb-2">Undosh harflar, <b>-й</b> yoki <b>-ь</b> bilan tugaydi.</p>
+                    <p class="text-xs text-slate-500 mb-2">Оканчивается на согласный, <b>-й</b> или <b>-ь</b>.</p>
                     <div class="p-2.5 bg-sky-50 rounded-xl text-xs text-slate-700 font-semibold mb-2">
-                        Misol so'zlar: Стол, Дом, Брат, Чай, Музей, Словарь, День, Папа.
+                        Слова: Стол, Дом, Брат, Чай, Музей, Словарь, День, Папа.
                     </div>
                 </div>
 
@@ -196,9 +196,9 @@ app_html = """
                         <span>Женский род (ОНА)</span>
                         <span class="text-xs bg-rose-100 text-rose-700 px-2 py-0.5 rounded-lg">Эта / Моя</span>
                     </h3>
-                    <p class="text-xs text-slate-500 mb-2"><b>-а</b>, <b>-я</b> yoki <b>-ь</b> harflari bilan tugaydi.</p>
+                    <p class="text-xs text-slate-500 mb-2">Оканчивается на <b>-а</b>, <b>-я</b> или <b>-ь</b>.</p>
                     <div class="p-2.5 bg-rose-50 rounded-xl text-xs text-slate-700 font-semibold mb-2">
-                        Misol so'zlar: Книга, Мама, Сестра, Ручка, Семья, Земля, Тетрадь, Ночь.
+                        Слова: Книга, Мама, Сестра, Ручка, Семья, Земля, Тетрадь, Ночь.
                     </div>
                 </div>
 
@@ -207,43 +207,43 @@ app_html = """
                         <span>Средний род (ОНО)</span>
                         <span class="text-xs bg-amber-100 text-amber-700 px-2 py-0.5 rounded-lg">Это / Моё</span>
                     </h3>
-                    <p class="text-xs text-slate-500 mb-2"><b>-о</b>, <b>-е</b>, <b>-ё</b> yoki <b>-мя</b> bilan tugaydi.</p>
+                    <p class="text-xs text-slate-500 mb-2">Оканчивается на <b>-о</b>, <b>-е</b>, <b>-ё</b> или <b>-мя</b>.</p>
                     <div class="p-2.5 bg-amber-50 rounded-xl text-xs text-slate-700 font-semibold mb-2">
-                        Misol so'zlar: Окно, Письмо, Яблоко, Море, Солнце, Поле, Имя, Время.
+                        Слова: Окно, Письмо, Яблоко, Море, Солнце, Поле, Имя, Время.
                     </div>
                 </div>
             </div>
 
-            <!-- RODLAR TAGIDA HAR BIRI UCHUN 20 TADAN GAP (JAMI 60 TA GAP) -->
+            <!-- RUS TILIDAGI SARLAVHALAR VA 20 TADAN GAP (JAMI 60 TA) -->
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
                 
-                <!-- 1. MUJSKOY ROD UCHUN 20 TA GAP -->
+                <!-- 1. МУЖСКОЙ РОД -->
                 <div class="bg-white p-4 rounded-2xl border-2 border-sky-200 shadow-sm">
                     <div class="flex items-center justify-between pb-3 border-b border-sky-100 mb-3">
                         <span class="font-black text-sky-700 text-sm flex items-center gap-1.5">
-                            <i class="fas fa-mars"></i> Erkak rod (20 ta gap)
+                            <i class="fas fa-mars"></i> Мужской род (20 предложений)
                         </span>
                         <span class="text-[11px] font-bold text-sky-600 bg-sky-50 px-2 py-0.5 rounded-md">Он</span>
                     </div>
                     <div class="space-y-2.5 max-h-[650px] overflow-y-auto pr-1" id="male-sentences"></div>
                 </div>
 
-                <!-- 2. JENSKOY ROD UCHUN 20 TA GAP -->
+                <!-- 2. ЖЕНСКИЙ РОД -->
                 <div class="bg-white p-4 rounded-2xl border-2 border-rose-200 shadow-sm">
                     <div class="flex items-center justify-between pb-3 border-b border-rose-100 mb-3">
                         <span class="font-black text-rose-700 text-sm flex items-center gap-1.5">
-                            <i class="fas fa-venus"></i> Ayol rod (20 ta gap)
+                            <i class="fas fa-venus"></i> Женский род (20 предложений)
                         </span>
                         <span class="text-[11px] font-bold text-rose-600 bg-rose-50 px-2 py-0.5 rounded-md">Она</span>
                     </div>
                     <div class="space-y-2.5 max-h-[650px] overflow-y-auto pr-1" id="female-sentences"></div>
                 </div>
 
-                <!-- 3. SREDNIY ROD UCHUN 20 TA GAP -->
+                <!-- 3. СРЕДНИЙ РОД -->
                 <div class="bg-white p-4 rounded-2xl border-2 border-amber-200 shadow-sm">
                     <div class="flex items-center justify-between pb-3 border-b border-amber-100 mb-3">
                         <span class="font-black text-amber-700 text-sm flex items-center gap-1.5">
-                            <i class="fas fa-neuter"></i> O'rta rod (20 ta gap)
+                            <i class="fas fa-neuter"></i> Средний род (20 предложений)
                         </span>
                         <span class="text-[11px] font-bold text-amber-600 bg-amber-50 px-2 py-0.5 rounded-md">Оно</span>
                     </div>
@@ -256,8 +256,8 @@ app_html = """
         <!-- 4. MATNLAR -->
         <section id="section-texts" class="hidden space-y-4">
             <div class="bg-white/90 p-4 rounded-2xl border-2 border-sky-100 flex justify-between items-center">
-                <h2 class="text-lg font-black text-slate-800">50 ta O'qish Matni</h2>
-                <span class="text-xs font-bold bg-sky-100 text-sky-700 px-3 py-1 rounded-xl">Jami: 50 ta</span>
+                <h2 class="text-lg font-black text-slate-800">50 коротких текстов для чтения</h2>
+                <span class="text-xs font-bold bg-sky-100 text-sky-700 px-3 py-1 rounded-xl">Всего: 50</span>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="texts-container"></div>
             <div class="flex justify-center gap-2 mt-4" id="texts-pagination"></div>
@@ -267,18 +267,18 @@ app_html = """
         <section id="section-quiz" class="hidden max-w-2xl mx-auto space-y-4">
             <div id="quiz-question-box" class="bg-white rounded-2xl p-6 border-2 border-rose-200 shadow-sm">
                 <div class="flex justify-between items-center pb-3 border-b mb-4">
-                    <span class="text-sm font-black text-slate-700">Savol: <span id="quiz-current-num" class="text-rose-500">1</span> / 50</span>
-                    <span class="text-sm font-black text-emerald-600">Ball: <span id="quiz-score">0</span> / 100</span>
+                    <span class="text-sm font-black text-slate-700">Вопрос: <span id="quiz-current-num" class="text-rose-500">1</span> / 50</span>
+                    <span class="text-sm font-black text-emerald-600">Баллы: <span id="quiz-score">0</span> / 100</span>
                 </div>
                 <div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden mb-4">
                     <div id="quiz-progress-bar" class="bg-emerald-500 h-full w-[2%] transition-all"></div>
                 </div>
                 <div class="p-6 bg-slate-50 rounded-2xl text-center border">
-                    <span class="text-xs font-bold text-rose-500 bg-rose-50 px-3 py-1 rounded-full">Birinchi harfni toping:</span>
+                    <span class="text-xs font-bold text-rose-500 bg-rose-50 px-3 py-1 rounded-full">Угадайте первую букву:</span>
                     <h3 id="quiz-word-display" class="text-3xl font-black text-slate-800 my-3">_ рбуз</h3>
                     <p id="quiz-uz-translation" class="text-sm font-semibold text-slate-500 mb-3">Tarjimasi: Tarvuz</p>
                     <button onclick="playQuizWordAudio()" class="px-4 py-2 bg-sky-500 hover:bg-sky-600 text-white rounded-xl text-xs font-bold inline-flex items-center gap-1 shadow">
-                        <i class="fas fa-volume-high"></i> So'zni Tinglash
+                        <i class="fas fa-volume-high"></i> Слушать слово
                     </button>
                 </div>
 
@@ -286,7 +286,7 @@ app_html = """
                 <div id="quiz-feedback" class="mt-3 text-center font-bold text-sm h-6"></div>
                 <div class="mt-4 flex justify-end">
                     <button id="quiz-next-btn" onclick="goToNextQuestion()" disabled class="px-5 py-2 bg-slate-200 text-slate-400 rounded-xl font-bold text-xs transition cursor-not-allowed">
-                        Keyingi savol ➜
+                        Следующий вопрос ➜
                     </button>
                 </div>
             </div>
@@ -295,16 +295,16 @@ app_html = """
                 <div class="w-20 h-20 mx-auto rounded-full bg-emerald-500 text-white text-3xl flex items-center justify-center shadow-lg">
                     <i class="fas fa-award"></i>
                 </div>
-                <h3 class="text-2xl font-black text-slate-800">Sinov Yakunlandi!</h3>
+                <h3 class="text-2xl font-black text-slate-800">Тест завершён!</h3>
                 <div class="grid grid-cols-3 gap-2 max-w-sm mx-auto p-3 bg-slate-50 rounded-2xl">
-                    <div class="p-2 bg-white rounded-xl shadow-sm"><span class="text-xs text-slate-400 block font-bold">Ball</span><span id="res-total-score" class="text-xl font-black text-emerald-600">0</span></div>
-                    <div class="p-2 bg-white rounded-xl shadow-sm"><span class="text-xs text-slate-400 block font-bold">To'g'ri</span><span id="res-correct-count" class="text-xl font-black text-sky-600">0</span></div>
-                    <div class="p-2 bg-white rounded-xl shadow-sm"><span class="text-xs text-slate-400 block font-bold">Xato</span><span id="res-wrong-count" class="text-xl font-black text-rose-500">0</span></div>
+                    <div class="p-2 bg-white rounded-xl shadow-sm"><span class="text-xs text-slate-400 block font-bold">Баллы</span><span id="res-total-score" class="text-xl font-black text-emerald-600">0</span></div>
+                    <div class="p-2 bg-white rounded-xl shadow-sm"><span class="text-xs text-slate-400 block font-bold">Правильно</span><span id="res-correct-count" class="text-xl font-black text-sky-600">0</span></div>
+                    <div class="p-2 bg-white rounded-xl shadow-sm"><span class="text-xs text-slate-400 block font-bold">Ошибки</span><span id="res-wrong-count" class="text-xl font-black text-rose-500">0</span></div>
                 </div>
                 <div id="res-grade-badge" class="inline-block px-4 py-2 rounded-xl text-xs font-bold"></div>
                 <div>
                     <button onclick="startQuizSession()" class="px-6 py-2.5 bg-emerald-500 hover:bg-emerald-600 text-white rounded-xl font-bold text-xs shadow-md">
-                        Qaytadan boshlash (Yangi 50 ta savol)
+                        Пройти снова (Новые 50 вопросов)
                     </button>
                 </div>
             </div>
@@ -337,7 +337,7 @@ app_html = """
         }
 
         // ==========================================
-        // HAR BIR ROD UCHUN 20 TADAN GAP (JAMI 60 TA)
+        // 60 TA GAP (20 TADAN HAR BIR RODGA)
         // ==========================================
         const maleSentences = [
             { ru: "Этот большой стол стоит в комнате.", uz: "Bu katta stol xonada turibdi." },
@@ -674,7 +674,7 @@ app_html = """
                     <div>
                         <div class="flex justify-between items-center mb-2">
                             <span class="text-xs font-bold text-sky-700 bg-sky-100 px-2 py-0.5 rounded-lg">#${t.id}</span>
-                            <button onclick="playSound('${t.ru.replace(/'/g, "\\'")}')" class="text-xs bg-sky-500 hover:bg-sky-600 text-white px-3 py-1 rounded-lg font-bold">🔊 Eshitish</button>
+                            <button onclick="playSound('${t.ru.replace(/'/g, "\\'")}')" class="text-xs bg-sky-500 hover:bg-sky-600 text-white px-3 py-1 rounded-lg font-bold">🔊 Слушать</button>
                         </div>
                         <p class="font-bold text-slate-800 text-sm mb-1">${t.ru}</p>
                         <p class="text-xs text-slate-500">${t.uz}</p>
@@ -739,7 +739,7 @@ app_html = """
                 quizScore += 2; correctCount++;
                 document.getElementById('quiz-score').textContent = quizScore;
                 document.getElementById('quiz-feedback').className = "mt-3 text-center font-bold text-sm h-6 text-emerald-600";
-                document.getElementById('quiz-feedback').textContent = `✔ Barakalla! To'g'ri javob (+2 ball)`;
+                document.getElementById('quiz-feedback').textContent = `✔ Правильно! (+2 балла)`;
                 playSound(`Правильно! ${item.ru}`);
             } else {
                 btn.className = "p-3 bg-rose-500 border-2 border-rose-600 rounded-xl text-xl font-black text-white shadow-md";
@@ -747,7 +747,7 @@ app_html = """
                     if (b.textContent === item.char) b.className = "p-3 bg-emerald-500 border-2 border-emerald-600 rounded-xl text-xl font-black text-white shadow-md";
                 }
                 document.getElementById('quiz-feedback').className = "mt-3 text-center font-bold text-sm h-6 text-rose-500";
-                document.getElementById('quiz-feedback').textContent = `✖ Noto'g'ri! To'g'ri harf: ${item.char}`;
+                document.getElementById('quiz-feedback').textContent = `✖ Неправильно! Правильная буква: ${item.char}`;
                 playSound(`Неправильно. Это ${item.ru}`);
             }
             document.getElementById('quiz-next-btn').disabled = false;
@@ -764,10 +764,10 @@ app_html = """
             document.getElementById('res-correct-count').textContent = correctCount;
             document.getElementById('res-wrong-count').textContent = 50 - correctCount;
             const b = document.getElementById('res-grade-badge');
-            if (quizScore >= 86) { b.className = "inline-block px-4 py-2 rounded-xl text-xs font-bold bg-emerald-100 text-emerald-800"; b.textContent = "A'lo (5 Baho)"; }
-            else if (quizScore >= 70) { b.className = "inline-block px-4 py-2 rounded-xl text-xs font-bold bg-sky-100 text-sky-800"; b.textContent = "Yaxshi (4 Baho)"; }
-            else if (quizScore >= 50) { b.className = "inline-block px-4 py-2 rounded-xl text-xs font-bold bg-amber-100 text-amber-800"; b.textContent = "Qoniqarli (3 Baho)"; }
-            else { b.className = "inline-block px-4 py-2 rounded-xl text-xs font-bold bg-rose-100 text-rose-800"; b.textContent = "Qayta topshiring"; }
+            if (quizScore >= 86) { b.className = "inline-block px-4 py-2 rounded-xl text-xs font-bold bg-emerald-100 text-emerald-800"; b.textContent = "Отлично! (Оценка: 5)"; }
+            else if (quizScore >= 70) { b.className = "inline-block px-4 py-2 rounded-xl text-xs font-bold bg-sky-100 text-sky-800"; b.textContent = "Хорошо! (Оценка: 4)"; }
+            else if (quizScore >= 50) { b.className = "inline-block px-4 py-2 rounded-xl text-xs font-bold bg-amber-100 text-amber-800"; b.textContent = "Удовлетворительно (Оценка: 3)"; }
+            else { b.className = "inline-block px-4 py-2 rounded-xl text-xs font-bold bg-rose-100 text-rose-800"; b.textContent = "Попробуйте ещё раз!"; }
         }
 
         window.addEventListener('DOMContentLoaded', () => {
@@ -781,5 +781,5 @@ app_html = """
 </html>
 """
 
-# 4. Saytni butun ekran bo'ylab chiqarish (balandlik 1150px)
+# 4. Saytni butun ekran bo'ylab chiqarish
 components.html(app_html, height=1150, scrolling=True)
