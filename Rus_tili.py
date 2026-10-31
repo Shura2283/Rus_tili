@@ -1,7 +1,7 @@
 import streamlit as st
 import streamlit.components.v1 as components
 
-# Sahifa sozlamalari
+# 1. Sahifani to'liq kenglikka sozlash
 st.set_page_config(
     page_title="Rus tili 0 dan — Quljanova Shukurjon Zaribovna",
     page_icon="📚",
@@ -9,7 +9,34 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-# Barcha funksiyalarga ega to'liq interaktiv platforma (HTML + JS)
+# 2. Streamlit'ning qora ramkasi, padding va marginlarini to'liq olib tashlash
+st.markdown("""
+    <style>
+        /* Asosiy fon va hoshiyalarni olib tashlash */
+        header {visibility: hidden !important;}
+        footer {visibility: hidden !important;}
+        #MainMenu {visibility: hidden !important;}
+        .block-container {
+            padding-top: 0rem !important;
+            padding-bottom: 0rem !important;
+            padding-left: 0rem !important;
+            padding-right: 0rem !important;
+            max-width: 100% !important;
+        }
+        .stApp {
+            margin: 0 !important;
+            padding: 0 !important;
+            background: #f0fdf4 !important;
+        }
+        iframe {
+            display: block;
+            width: 100% !important;
+            border: none !important;
+        }
+    </style>
+""", unsafe_allow_html=True)
+
+# 3. Kengaytirilgan va ovoz tizimi to'liq sozlangan veb-platforma
 app_html = """
 <!DOCTYPE html>
 <html lang="uz">
@@ -20,11 +47,14 @@ app_html = """
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Marck+Script&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <style>
+        * { box-sizing: border-box; }
         body {
             font-family: 'Nunito', sans-serif;
-            background: radial-gradient(circle at 10% 20%, rgba(220, 252, 231, 0.7) 0%, rgba(224, 242, 254, 0.7) 35%, rgba(254, 249, 195, 0.7) 70%, rgba(254, 226, 226, 0.5) 100%);
+            background: radial-gradient(circle at 10% 20%, rgba(220, 252, 231, 0.85) 0%, rgba(224, 242, 254, 0.85) 35%, rgba(254, 249, 195, 0.85) 70%, rgba(254, 226, 226, 0.6) 100%);
             background-attachment: fixed;
             min-height: 100vh;
+            margin: 0;
+            padding: 12px;
         }
         .propis-font { font-family: 'Marck Script', cursive; }
         .propis-notebook {
@@ -35,10 +65,10 @@ app_html = """
         }
     </style>
 </head>
-<body class="text-slate-800 p-2 sm:p-4 selection:bg-yellow-300">
+<body class="text-slate-800 selection:bg-yellow-300">
 
     <!-- HEADER -->
-    <header class="bg-white/90 backdrop-blur-md border-b-4 border-emerald-400 rounded-3xl p-4 shadow-sm mb-6 max-w-6xl mx-auto flex flex-wrap justify-between items-center gap-4">
+    <header class="bg-white/95 backdrop-blur-md border-b-4 border-emerald-500 rounded-2xl p-4 shadow-sm mb-6 w-full flex flex-wrap justify-between items-center gap-4">
         <div class="flex items-center space-x-3">
             <div class="w-12 h-12 bg-gradient-to-tr from-amber-400 via-rose-500 to-indigo-500 rounded-2xl flex items-center justify-center text-white text-3xl font-black shadow-md shadow-rose-200 propis-font">
                 Аа
@@ -50,32 +80,32 @@ app_html = """
         </div>
 
         <nav class="flex flex-wrap items-center gap-2">
-            <button onclick="switchTab('alphabet')" id="tab-alphabet" class="px-3 py-2 rounded-xl text-xs sm:text-sm font-extrabold bg-emerald-500 text-white shadow-md">
+            <button onclick="switchTab('alphabet')" id="tab-alphabet" class="px-3.5 py-2 rounded-xl text-xs sm:text-sm font-extrabold bg-emerald-500 text-white shadow-md">
                 <i class="fas fa-font"></i> Alifbo
             </button>
-            <button onclick="switchTab('write')" id="tab-write" class="px-3 py-2 rounded-xl text-xs sm:text-sm font-extrabold bg-white text-slate-600 hover:bg-slate-100">
+            <button onclick="switchTab('write')" id="tab-write" class="px-3.5 py-2 rounded-xl text-xs sm:text-sm font-extrabold bg-white text-slate-600 hover:bg-slate-100">
                 <i class="fas fa-pen-nib text-amber-500"></i> Yozma Harflar
             </button>
-            <button onclick="switchTab('gender')" id="tab-gender" class="px-3 py-2 rounded-xl text-xs sm:text-sm font-extrabold bg-white text-slate-600 hover:bg-slate-100">
+            <button onclick="switchTab('gender')" id="tab-gender" class="px-3.5 py-2 rounded-xl text-xs sm:text-sm font-extrabold bg-white text-slate-600 hover:bg-slate-100">
                 <i class="fas fa-venus-mars text-indigo-500"></i> Rodlar
             </button>
-            <button onclick="switchTab('texts')" id="tab-texts" class="px-3 py-2 rounded-xl text-xs sm:text-sm font-extrabold bg-white text-slate-600 hover:bg-slate-100">
+            <button onclick="switchTab('texts')" id="tab-texts" class="px-3.5 py-2 rounded-xl text-xs sm:text-sm font-extrabold bg-white text-slate-600 hover:bg-slate-100">
                 <i class="fas fa-book-reader text-sky-500"></i> 50 Matn
             </button>
-            <button onclick="switchTab('quiz')" id="tab-quiz" class="px-3 py-2 rounded-xl text-xs sm:text-sm font-extrabold bg-white text-slate-600 hover:bg-slate-100">
+            <button onclick="switchTab('quiz')" id="tab-quiz" class="px-3.5 py-2 rounded-xl text-xs sm:text-sm font-extrabold bg-white text-slate-600 hover:bg-slate-100">
                 <i class="fas fa-gamepad text-rose-500"></i> Viktorina (50 Test)
             </button>
         </nav>
     </header>
 
-    <main class="max-w-6xl mx-auto space-y-6">
+    <main class="w-full space-y-6">
 
         <!-- 1. ALIFBO -->
         <section id="section-alphabet" class="space-y-4">
-            <div class="bg-white/80 p-5 rounded-3xl border-2 border-emerald-100 shadow-sm flex flex-wrap justify-between items-center gap-2">
+            <div class="bg-white/90 p-5 rounded-2xl border-2 border-emerald-100 shadow-sm flex flex-wrap justify-between items-center gap-2">
                 <div>
                     <h2 class="text-xl font-black text-slate-800">Rus Alifbosi (33 ta Harf)</h2>
-                    <p class="text-xs text-slate-600">Harfni eshitish uchun bosing!</p>
+                    <p class="text-xs text-slate-600">Harfni eshitish uchun uning ustiga yoki ovoz tugmasiga bosing!</p>
                 </div>
                 <div class="flex gap-2 text-xs font-bold">
                     <span class="px-3 py-1 bg-rose-100 text-rose-700 rounded-full">10 ta Unli</span>
@@ -88,16 +118,16 @@ app_html = """
 
         <!-- 2. YOZMA DOSKA -->
         <section id="section-write" class="hidden space-y-4">
-            <div class="bg-white/80 p-4 rounded-3xl border-2 border-amber-200 flex flex-wrap justify-between items-center gap-2">
+            <div class="bg-white/90 p-4 rounded-2xl border-2 border-amber-200 flex flex-wrap justify-between items-center gap-2">
                 <h2 class="text-lg font-black text-slate-800">Yozma Shaklda Yozish (Propis)</h2>
                 <div class="flex items-center gap-2">
-                    <label class="text-xs font-bold text-slate-700">Harf:</label>
+                    <label class="text-xs font-bold text-slate-700">Harfni tanlang:</label>
                     <select id="letter-select" onchange="changeCanvasLetter(this.value)" class="bg-amber-50 border-2 border-amber-300 font-extrabold text-amber-700 rounded-xl px-3 py-1.5 text-sm"></select>
                 </div>
             </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
-                <div class="lg:col-span-2 bg-white rounded-3xl p-4 border-2 border-amber-200 shadow-sm flex flex-col items-center">
+                <div class="lg:col-span-2 bg-white rounded-2xl p-4 border-2 border-amber-200 shadow-sm flex flex-col items-center">
                     <div class="relative w-full max-w-[420px] aspect-square rounded-2xl border propis-notebook overflow-hidden flex items-center justify-center">
                         <div id="canvas-guide-letter" class="absolute inset-0 flex items-center justify-center text-[190px] text-slate-300 select-none pointer-events-none propis-font">Аа</div>
                         <canvas id="paint-canvas" width="420" height="420" class="absolute inset-0 cursor-crosshair touch-none"></canvas>
@@ -116,7 +146,7 @@ app_html = """
                     </div>
                 </div>
 
-                <div class="bg-white rounded-3xl p-5 border shadow-sm flex flex-col justify-between">
+                <div class="bg-white rounded-2xl p-5 border shadow-sm flex flex-col justify-between">
                     <div>
                         <div class="flex justify-between items-center mb-2">
                             <span id="canvas-card-badge" class="px-2.5 py-0.5 bg-rose-100 text-rose-700 text-xs font-bold rounded-full">UNLI</span>
@@ -139,12 +169,12 @@ app_html = """
 
         <!-- 3. RODLAR -->
         <section id="section-gender" class="hidden space-y-4">
-            <div class="bg-white/80 p-5 rounded-3xl border-2 border-indigo-100">
+            <div class="bg-white/90 p-5 rounded-2xl border-2 border-indigo-100">
                 <h2 class="text-xl font-black text-slate-800">Rus Tilida Otlarning Rodlari</h2>
-                <p class="text-xs text-slate-600 mt-1">Har bir ot quyidagi 3 ta rodning biriga tegishli bo'ladi:</p>
+                <p class="text-xs text-slate-600 mt-1">Har bir ot quyidagi 3 ta roddan biriga kiradi:</p>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div class="bg-white p-5 rounded-3xl border-t-8 border-sky-500 border shadow-sm">
+                <div class="bg-white p-5 rounded-2xl border-t-8 border-sky-500 border shadow-sm">
                     <h3 class="text-lg font-black text-sky-600 mb-1">Мужской род (ОН)</h3>
                     <p class="text-xs text-slate-500 mb-3">Undosh harflar, -й yoki -ь bilan tugaydi.</p>
                     <div class="space-y-2 text-sm">
@@ -153,7 +183,7 @@ app_html = """
                         <div onclick="playSound('Словарь, День')" class="p-2.5 bg-sky-50 rounded-xl cursor-pointer font-bold">Словарь, День <span class="text-xs text-slate-400 block font-normal">Lug'at, Kun (-ь)</span></div>
                     </div>
                 </div>
-                <div class="bg-white p-5 rounded-3xl border-t-8 border-rose-500 border shadow-sm">
+                <div class="bg-white p-5 rounded-2xl border-t-8 border-rose-500 border shadow-sm">
                     <h3 class="text-lg font-black text-rose-600 mb-1">Женский род (ОНА)</h3>
                     <p class="text-xs text-slate-500 mb-3">-а, -я yoki -ь bilan tugaydi.</p>
                     <div class="space-y-2 text-sm">
@@ -162,7 +192,7 @@ app_html = """
                         <div onclick="playSound('Тетрадь, Ночь')" class="p-2.5 bg-rose-50 rounded-xl cursor-pointer font-bold">Тетрадь, Ночь <span class="text-xs text-slate-400 block font-normal">Daftar, Tun (-ь)</span></div>
                     </div>
                 </div>
-                <div class="bg-white p-5 rounded-3xl border-t-8 border-amber-500 border shadow-sm">
+                <div class="bg-white p-5 rounded-2xl border-t-8 border-amber-500 border shadow-sm">
                     <h3 class="text-lg font-black text-amber-600 mb-1">Средний род (ОНО)</h3>
                     <p class="text-xs text-slate-500 mb-3">-о, -е, -ё yoki -мя bilan tugaydi.</p>
                     <div class="space-y-2 text-sm">
@@ -176,7 +206,7 @@ app_html = """
 
         <!-- 4. MATNLAR -->
         <section id="section-texts" class="hidden space-y-4">
-            <div class="bg-white/80 p-4 rounded-3xl border-2 border-sky-100 flex justify-between items-center">
+            <div class="bg-white/90 p-4 rounded-2xl border-2 border-sky-100 flex justify-between items-center">
                 <h2 class="text-lg font-black text-slate-800">50 ta O'qish Matni</h2>
                 <span class="text-xs font-bold bg-sky-100 text-sky-700 px-3 py-1 rounded-xl">Jami: 50 ta</span>
             </div>
@@ -184,9 +214,9 @@ app_html = """
             <div class="flex justify-center gap-2 mt-4" id="texts-pagination"></div>
         </section>
 
-        <!-- 5. 50 TA TEST VIKTORINA (200 TA SO'Z BAZASI BILAN) -->
+        <!-- 5. VIKTORINA -->
         <section id="section-quiz" class="hidden max-w-2xl mx-auto space-y-4">
-            <div id="quiz-question-box" class="bg-white rounded-3xl p-6 border-2 border-rose-200 shadow-sm">
+            <div id="quiz-question-box" class="bg-white rounded-2xl p-6 border-2 border-rose-200 shadow-sm">
                 <div class="flex justify-between items-center pb-3 border-b mb-4">
                     <span class="text-sm font-black text-slate-700">Savol: <span id="quiz-current-num" class="text-rose-500">1</span> / 50</span>
                     <span class="text-sm font-black text-emerald-600">Ball: <span id="quiz-score">0</span> / 100</span>
@@ -195,11 +225,11 @@ app_html = """
                     <div id="quiz-progress-bar" class="bg-emerald-500 h-full w-[2%] transition-all"></div>
                 </div>
                 <div class="p-6 bg-slate-50 rounded-2xl text-center border">
-                    <span class="text-xs font-bold text-rose-500 bg-rose-50 px-3 py-1 rounded-full">So'zning birinchi harfini toping!</span>
+                    <span class="text-xs font-bold text-rose-500 bg-rose-50 px-3 py-1 rounded-full">Birinchi harfni toping:</span>
                     <h3 id="quiz-word-display" class="text-3xl font-black text-slate-800 my-3">_ рбуз</h3>
                     <p id="quiz-uz-translation" class="text-sm font-semibold text-slate-500 mb-3">Tarjimasi: Tarvuz</p>
-                    <button onclick="playQuizWordAudio()" class="px-3 py-1.5 bg-sky-500 hover:bg-sky-600 text-white rounded-xl text-xs font-bold inline-flex items-center gap-1 shadow">
-                        <i class="fas fa-volume-high"></i> Eshitish
+                    <button onclick="playQuizWordAudio()" class="px-4 py-2 bg-sky-500 hover:bg-sky-600 text-white rounded-xl text-xs font-bold inline-flex items-center gap-1 shadow">
+                        <i class="fas fa-volume-high"></i> So'zni Tinglash
                     </button>
                 </div>
 
@@ -212,8 +242,7 @@ app_html = """
                 </div>
             </div>
 
-            <!-- Natija ekrani -->
-            <div id="quiz-result-box" class="hidden bg-white rounded-3xl p-8 border-2 border-emerald-300 text-center space-y-4">
+            <div id="quiz-result-box" class="hidden bg-white rounded-2xl p-8 border-2 border-emerald-300 text-center space-y-4">
                 <div class="w-20 h-20 mx-auto rounded-full bg-emerald-500 text-white text-3xl flex items-center justify-center shadow-lg">
                     <i class="fas fa-award"></i>
                 </div>
@@ -239,6 +268,26 @@ app_html = """
     </footer>
 
     <script>
+        // OVOZ TIZIMI (WEB SPEECH API - BARCHA BRAUZERLAR VA MOBILLAR UCHUN XAVFSIZ)
+        function playSound(text) {
+            try {
+                if ('speechSynthesis' in window) {
+                    window.speechSynthesis.cancel();
+                    // Audio kontekstini uyg'otish
+                    if (window.speechSynthesis.paused) {
+                        window.speechSynthesis.resume();
+                    }
+                    const u = new SpeechSynthesisUtterance(text);
+                    u.lang = 'ru-RU';
+                    u.rate = 0.85;
+                    u.volume = 1.0;
+                    window.speechSynthesis.speak(u);
+                }
+            } catch (e) {
+                console.error("Audio xatosi:", e);
+            }
+        }
+
         const lettersData = [
             { char: 'А', small: 'а', type: 'unli', word: 'Арбуз', uz: 'Tarvuz', img: 'https://images.unsplash.com/photo-1587049352846-4a222e784d38?auto=format&fit=crop&w=400&q=80' },
             { char: 'Б', small: 'б', type: 'undosh', word: 'Бабочка', uz: 'Kapalak', img: 'https://images.unsplash.com/photo-1559253664-ca249d4608c6?auto=format&fit=crop&w=400&q=80' },
@@ -307,7 +356,7 @@ app_html = """
             { ru: 'Юбка', uz: 'Yubka', char: 'Ю' }, { ru: 'Юг', uz: 'Janub', char: 'Ю' }, { ru: 'Юмор', uz: 'Hazil', char: 'Ю' }, { ru: 'Юноша', uz: 'O‘smir yigit', char: 'Ю' },
             { ru: 'Яблоко', uz: 'Olma', char: 'Я' }, { ru: 'Ягода', uz: 'Rezavor meva', char: 'Я' }, { ru: 'Язык', uz: 'Til', char: 'Я' }, { ru: 'Яйцо', uz: 'Tuxum', char: 'Я' }, { ru: 'Якорь', uz: 'Langar', char: 'Я' },
             { ru: 'Сыр', uz: 'Pishloq', char: 'С' }, { ru: 'Дым', uz: 'Tutun', char: 'Д' }, { ru: 'Бык', uz: 'Ho‘kiz', char: 'Б' }, { ru: 'Мышь', uz: 'Sichqon', char: 'М' }, { ru: 'Рысь', uz: 'Silovsin', char: 'Р' },
-            { ru: 'Картина', uz: 'Rasm', char: 'К' }, { ru: 'Зеркаlo', uz: 'Oyna', char: 'З' }, { ru: 'Подушка', uz: 'Yostiq', char: 'П' }, { ru: 'Одеяло', uz: 'Ko‘rpa', char: 'О' },
+            { ru: 'Картина', uz: 'Rasm', char: 'К' }, { ru: 'Зеркало', uz: 'Oyna', char: 'З' }, { ru: 'Подушка', uz: 'Yostiq', char: 'П' }, { ru: 'Одеяло', uz: 'Ko‘rpa', char: 'О' },
             { ru: 'Платье', uz: 'Ko‘ylak', char: 'П' }, { ru: 'Пальто', uz: 'Palto', char: 'П' }, { ru: 'Ботинки', uz: 'Botinkalar', char: 'Б' }, { ru: 'Носки', uz: 'Paypoqlar', char: 'Н' },
             { ru: 'Вилка', uz: 'Sanchqi', char: 'В' }, { ru: 'Нож', uz: 'Pichoq', char: 'Н' }, { ru: 'Чайник', uz: 'Choynak', char: 'Ч' }, { ru: 'Сковорода', uz: 'Tova', char: 'С' },
             { ru: 'Кастрюля', uz: 'Qozon', char: 'К' }, { ru: 'Сахар', uz: 'Shakar', char: 'С' }, { ru: 'Соль', uz: 'Tuz', char: 'С' }, { ru: 'Масло', uz: 'Yog‘', char: 'М' },
@@ -376,16 +425,6 @@ app_html = """
             { id: 50, ru: "Мы учимся каждый день и узнаём много нового!", uz: "Biz har kuni o'qiymiz va juda ko'p yangi narsalarni bilib olamiz!" }
         ];
 
-        function playSound(text) {
-            if ('speechSynthesis' in window) {
-                window.speechSynthesis.cancel();
-                const u = new SpeechSynthesisUtterance(text);
-                u.lang = 'ru-RU';
-                u.rate = 0.85;
-                window.speechSynthesis.speak(u);
-            }
-        }
-
         function renderAlphabet() {
             const grid = document.getElementById('alphabet-grid');
             grid.innerHTML = '';
@@ -397,7 +436,7 @@ app_html = """
                     <div>
                         <div class="flex justify-between items-center mb-1">
                             <span class="text-[10px] font-black px-1.5 py-0.5 rounded-full ${badge}">${item.type.toUpperCase()}</span>
-                            <button onclick="event.stopPropagation(); playSound('${item.char}');" class="w-6 h-6 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center text-xs">
+                            <button onclick="event.stopPropagation(); playSound('${item.char}');" class="w-7 h-7 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center text-xs shadow-sm">
                                 <i class="fas fa-volume-high"></i>
                             </button>
                         </div>
@@ -420,11 +459,11 @@ app_html = """
         function switchTab(tabId) {
             ['alphabet', 'write', 'gender', 'texts', 'quiz'].forEach(t => {
                 document.getElementById(`section-${t}`).classList.add('hidden');
-                document.getElementById(`tab-${t}`).className = "px-3 py-2 rounded-xl text-xs sm:text-sm font-extrabold bg-white text-slate-600 hover:bg-slate-100";
+                document.getElementById(`tab-${t}`).className = "px-3.5 py-2 rounded-xl text-xs sm:text-sm font-extrabold bg-white text-slate-600 hover:bg-slate-100";
             });
             document.getElementById(`section-${tabId}`).classList.remove('hidden');
             const color = tabId === 'alphabet' ? 'bg-emerald-500' : (tabId === 'write' ? 'bg-amber-500' : (tabId === 'gender' ? 'bg-indigo-500' : (tabId === 'texts' ? 'bg-sky-500' : 'bg-rose-500')));
-            document.getElementById(`tab-${tabId}`).className = `px-3 py-2 rounded-xl text-xs sm:text-sm font-extrabold ${color} text-white shadow-md`;
+            document.getElementById(`tab-${tabId}`).className = `px-3.5 py-2 rounded-xl text-xs sm:text-sm font-extrabold ${color} text-white shadow-md`;
             if (tabId === 'quiz' && quizSessionQuestions.length === 0) startQuizSession();
         }
 
@@ -488,7 +527,7 @@ app_html = """
                     <div>
                         <div class="flex justify-between items-center mb-2">
                             <span class="text-xs font-bold text-sky-700 bg-sky-100 px-2 py-0.5 rounded-lg">#${t.id}</span>
-                            <button onclick="playSound('${t.ru.replace(/'/g, "\\'")}')" class="text-xs bg-sky-500 text-white px-2.5 py-1 rounded-lg font-bold">🔊 Eshitish</button>
+                            <button onclick="playSound('${t.ru.replace(/'/g, "\\'")}')" class="text-xs bg-sky-500 hover:bg-sky-600 text-white px-3 py-1 rounded-lg font-bold">🔊 Eshitish</button>
                         </div>
                         <p class="font-bold text-slate-800 text-sm mb-1">${t.ru}</p>
                         <p class="text-xs text-slate-500">${t.uz}</p>
@@ -549,23 +588,23 @@ app_html = """
             const allBtns = document.getElementById('quiz-options').children;
 
             if (c === item.char) {
-                btn.className = "p-3 bg-emerald-500 border-2 border-emerald-600 rounded-xl text-xl font-black text-white";
+                btn.className = "p-3 bg-emerald-500 border-2 border-emerald-600 rounded-xl text-xl font-black text-white shadow-md";
                 quizScore += 2; correctCount++;
                 document.getElementById('quiz-score').textContent = quizScore;
                 document.getElementById('quiz-feedback').className = "mt-3 text-center font-bold text-sm h-6 text-emerald-600";
                 document.getElementById('quiz-feedback').textContent = `✔ Barakalla! To'g'ri javob (+2 ball)`;
                 playSound(`Правильно! ${item.ru}`);
             } else {
-                btn.className = "p-3 bg-rose-500 border-2 border-rose-600 rounded-xl text-xl font-black text-white";
+                btn.className = "p-3 bg-rose-500 border-2 border-rose-600 rounded-xl text-xl font-black text-white shadow-md";
                 for (let b of allBtns) {
-                    if (b.textContent === item.char) b.className = "p-3 bg-emerald-500 border-2 border-emerald-600 rounded-xl text-xl font-black text-white";
+                    if (b.textContent === item.char) b.className = "p-3 bg-emerald-500 border-2 border-emerald-600 rounded-xl text-xl font-black text-white shadow-md";
                 }
                 document.getElementById('quiz-feedback').className = "mt-3 text-center font-bold text-sm h-6 text-rose-500";
                 document.getElementById('quiz-feedback').textContent = `✖ Noto'g'ri! To'g'ri harf: ${item.char}`;
                 playSound(`Неправильно. Это ${item.ru}`);
             }
             document.getElementById('quiz-next-btn').disabled = false;
-            document.getElementById('quiz-next-btn').className = "px-5 py-2 bg-rose-500 text-white rounded-xl font-bold text-xs transition cursor-pointer shadow";
+            document.getElementById('quiz-next-btn').className = "px-5 py-2 bg-rose-500 hover:bg-rose-600 text-white rounded-xl font-bold text-xs transition cursor-pointer shadow";
         }
         function goToNextQuestion() {
             if (currQIdx < 49) { currQIdx++; loadQuizQ(currQIdx); }
@@ -594,5 +633,5 @@ app_html = """
 </html>
 """
 
-# Streamlit ilovasida butun veb-portalni chiqarish
-components.html(app_html, height=950, scrolling=True)
+# 4. Saytni butun ekran bo'ylab chiqarish
+components.html(app_html, height=1050, scrolling=True)
