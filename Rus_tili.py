@@ -9,10 +9,9 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-# 2. Streamlit'ning qora ramkasi, padding va marginlarini to'liq olib tashlash
+# 2. Streamlit'ning qora ramkasi, padding va marginlarini to'liq yo'qotish
 st.markdown("""
     <style>
-        /* Asosiy fon va hoshiyalarni olib tashlash */
         header {visibility: hidden !important;}
         footer {visibility: hidden !important;}
         #MainMenu {visibility: hidden !important;}
@@ -36,7 +35,7 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# 3. Kengaytirilgan va ovoz tizimi to'liq sozlangan veb-platforma
+# 3. Rodlar ostida 20 tadan gap (jami 60 ta gap) bilan kengaytirilgan veb-kod
 app_html = """
 <!DOCTYPE html>
 <html lang="uz">
@@ -87,7 +86,7 @@ app_html = """
                 <i class="fas fa-pen-nib text-amber-500"></i> Yozma Harflar
             </button>
             <button onclick="switchTab('gender')" id="tab-gender" class="px-3.5 py-2 rounded-xl text-xs sm:text-sm font-extrabold bg-white text-slate-600 hover:bg-slate-100">
-                <i class="fas fa-venus-mars text-indigo-500"></i> Rodlar
+                <i class="fas fa-venus-mars text-indigo-500"></i> Rodlar va 60 ta Gap
             </button>
             <button onclick="switchTab('texts')" id="tab-texts" class="px-3.5 py-2 rounded-xl text-xs sm:text-sm font-extrabold bg-white text-slate-600 hover:bg-slate-100">
                 <i class="fas fa-book-reader text-sky-500"></i> 50 Matn
@@ -105,7 +104,7 @@ app_html = """
             <div class="bg-white/90 p-5 rounded-2xl border-2 border-emerald-100 shadow-sm flex flex-wrap justify-between items-center gap-2">
                 <div>
                     <h2 class="text-xl font-black text-slate-800">Rus Alifbosi (33 ta Harf)</h2>
-                    <p class="text-xs text-slate-600">Harfni eshitish uchun uning ustiga yoki ovoz tugmasiga bosing!</p>
+                    <p class="text-xs text-slate-600">Harfni eshitish uchun uning ustiga bosing!</p>
                 </div>
                 <div class="flex gap-2 text-xs font-bold">
                     <span class="px-3 py-1 bg-rose-100 text-rose-700 rounded-full">10 ta Unli</span>
@@ -167,40 +166,90 @@ app_html = """
             </div>
         </section>
 
-        <!-- 3. RODLAR -->
-        <section id="section-gender" class="hidden space-y-4">
-            <div class="bg-white/90 p-5 rounded-2xl border-2 border-indigo-100">
-                <h2 class="text-xl font-black text-slate-800">Rus Tilida Otlarning Rodlari</h2>
-                <p class="text-xs text-slate-600 mt-1">Har bir ot quyidagi 3 ta roddan biriga kiradi:</p>
+        <!-- 3. RODLAR VA 60 TA GAP BO'LIMI -->
+        <section id="section-gender" class="hidden space-y-6">
+            <div class="bg-white/90 p-5 rounded-2xl border-2 border-indigo-100 shadow-sm flex flex-wrap justify-between items-center gap-2">
+                <div>
+                    <h2 class="text-xl font-black text-slate-800">Rus Tilida Otlarning Rodlari va 60 ta Namunaviy Gap</h2>
+                    <p class="text-xs text-slate-600 mt-1">Har bir rod qoidalari, unga mos qo'shimchalar va 20 tadan ovozli namunaviy gaplar:</p>
+                </div>
+                <div class="text-xs font-bold bg-indigo-50 text-indigo-700 px-3.5 py-2 rounded-xl border border-indigo-100">
+                    Savoli: <span class="font-extrabold">Он / Она / Оно?</span>
+                </div>
             </div>
+
+            <!-- Rodlar tushuntirish kartalari -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div class="bg-white p-5 rounded-2xl border-t-8 border-sky-500 border shadow-sm">
-                    <h3 class="text-lg font-black text-sky-600 mb-1">Мужской род (ОН)</h3>
-                    <p class="text-xs text-slate-500 mb-3">Undosh harflar, -й yoki -ь bilan tugaydi.</p>
-                    <div class="space-y-2 text-sm">
-                        <div onclick="playSound('Стол, Дом, Брат')" class="p-2.5 bg-sky-50 rounded-xl cursor-pointer font-bold">Стол, Дом, Брат <span class="text-xs text-slate-400 block font-normal">Stol, Uy, Aka</span></div>
-                        <div onclick="playSound('Чай, Музей')" class="p-2.5 bg-sky-50 rounded-xl cursor-pointer font-bold">Чай, Музей <span class="text-xs text-slate-400 block font-normal">Choy, Muzey (-й)</span></div>
-                        <div onclick="playSound('Словарь, День')" class="p-2.5 bg-sky-50 rounded-xl cursor-pointer font-bold">Словарь, День <span class="text-xs text-slate-400 block font-normal">Lug'at, Kun (-ь)</span></div>
+                    <h3 class="text-lg font-black text-sky-600 mb-1 flex items-center justify-between">
+                        <span>Мужской род (ОН)</span>
+                        <span class="text-xs bg-sky-100 text-sky-700 px-2 py-0.5 rounded-lg">Этот / Мой</span>
+                    </h3>
+                    <p class="text-xs text-slate-500 mb-2">Undosh harflar, <b>-й</b> yoki <b>-ь</b> bilan tugaydi.</p>
+                    <div class="p-2.5 bg-sky-50 rounded-xl text-xs text-slate-700 font-semibold mb-2">
+                        Misol so'zlar: Стол, Дом, Брат, Чай, Музей, Словарь, День, Папа.
                     </div>
                 </div>
+
                 <div class="bg-white p-5 rounded-2xl border-t-8 border-rose-500 border shadow-sm">
-                    <h3 class="text-lg font-black text-rose-600 mb-1">Женский род (ОНА)</h3>
-                    <p class="text-xs text-slate-500 mb-3">-а, -я yoki -ь bilan tugaydi.</p>
-                    <div class="space-y-2 text-sm">
-                        <div onclick="playSound('Книга, Мама, Ручка')" class="p-2.5 bg-rose-50 rounded-xl cursor-pointer font-bold">Книга, Мама, Ручка <span class="text-xs text-slate-400 block font-normal">Kitob, Ona, Ruchka (-а)</span></div>
-                        <div onclick="playSound('Семья, Земля')" class="p-2.5 bg-rose-50 rounded-xl cursor-pointer font-bold">Семья, Земля <span class="text-xs text-slate-400 block font-normal">Oila, Yer (-я)</span></div>
-                        <div onclick="playSound('Тетрадь, Ночь')" class="p-2.5 bg-rose-50 rounded-xl cursor-pointer font-bold">Тетрадь, Ночь <span class="text-xs text-slate-400 block font-normal">Daftar, Tun (-ь)</span></div>
+                    <h3 class="text-lg font-black text-rose-600 mb-1 flex items-center justify-between">
+                        <span>Женский род (ОНА)</span>
+                        <span class="text-xs bg-rose-100 text-rose-700 px-2 py-0.5 rounded-lg">Эта / Моя</span>
+                    </h3>
+                    <p class="text-xs text-slate-500 mb-2"><b>-а</b>, <b>-я</b> yoki <b>-ь</b> harflari bilan tugaydi.</p>
+                    <div class="p-2.5 bg-rose-50 rounded-xl text-xs text-slate-700 font-semibold mb-2">
+                        Misol so'zlar: Книга, Мама, Сестра, Ручка, Семья, Земля, Тетрадь, Ночь.
                     </div>
                 </div>
+
                 <div class="bg-white p-5 rounded-2xl border-t-8 border-amber-500 border shadow-sm">
-                    <h3 class="text-lg font-black text-amber-600 mb-1">Средний род (ОНО)</h3>
-                    <p class="text-xs text-slate-500 mb-3">-о, -е, -ё yoki -мя bilan tugaydi.</p>
-                    <div class="space-y-2 text-sm">
-                        <div onclick="playSound('Окно, Письмо')" class="p-2.5 bg-amber-50 rounded-xl cursor-pointer font-bold">Окно, Письмо <span class="text-xs text-slate-400 block font-normal">Deraza, Xat (-о)</span></div>
-                        <div onclick="playSound('Море, Солнце')" class="p-2.5 bg-amber-50 rounded-xl cursor-pointer font-bold">Море, Солнце <span class="text-xs text-slate-400 block font-normal">Dengiz, Quyosh (-е)</span></div>
-                        <div onclick="playSound('Имя, Время')" class="p-2.5 bg-amber-50 rounded-xl cursor-pointer font-bold">Имя, Время <span class="text-xs text-slate-400 block font-normal">Ism, Vaqt (-мя)</span></div>
+                    <h3 class="text-lg font-black text-amber-600 mb-1 flex items-center justify-between">
+                        <span>Средний род (ОНО)</span>
+                        <span class="text-xs bg-amber-100 text-amber-700 px-2 py-0.5 rounded-lg">Это / Моё</span>
+                    </h3>
+                    <p class="text-xs text-slate-500 mb-2"><b>-о</b>, <b>-е</b>, <b>-ё</b> yoki <b>-мя</b> bilan tugaydi.</p>
+                    <div class="p-2.5 bg-amber-50 rounded-xl text-xs text-slate-700 font-semibold mb-2">
+                        Misol so'zlar: Окно, Письмо, Яблоко, Море, Солнце, Поле, Имя, Время.
                     </div>
                 </div>
+            </div>
+
+            <!-- RODLAR TAGIDA HAR BIRI UCHUN 20 TADAN GAP (JAMI 60 TA GAP) -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+                
+                <!-- 1. MUJSKOY ROD UCHUN 20 TA GAP -->
+                <div class="bg-white p-4 rounded-2xl border-2 border-sky-200 shadow-sm">
+                    <div class="flex items-center justify-between pb-3 border-b border-sky-100 mb-3">
+                        <span class="font-black text-sky-700 text-sm flex items-center gap-1.5">
+                            <i class="fas fa-mars"></i> Erkak rod (20 ta gap)
+                        </span>
+                        <span class="text-[11px] font-bold text-sky-600 bg-sky-50 px-2 py-0.5 rounded-md">Он</span>
+                    </div>
+                    <div class="space-y-2.5 max-h-[650px] overflow-y-auto pr-1" id="male-sentences"></div>
+                </div>
+
+                <!-- 2. JENSKOY ROD UCHUN 20 TA GAP -->
+                <div class="bg-white p-4 rounded-2xl border-2 border-rose-200 shadow-sm">
+                    <div class="flex items-center justify-between pb-3 border-b border-rose-100 mb-3">
+                        <span class="font-black text-rose-700 text-sm flex items-center gap-1.5">
+                            <i class="fas fa-venus"></i> Ayol rod (20 ta gap)
+                        </span>
+                        <span class="text-[11px] font-bold text-rose-600 bg-rose-50 px-2 py-0.5 rounded-md">Она</span>
+                    </div>
+                    <div class="space-y-2.5 max-h-[650px] overflow-y-auto pr-1" id="female-sentences"></div>
+                </div>
+
+                <!-- 3. SREDNIY ROD UCHUN 20 TA GAP -->
+                <div class="bg-white p-4 rounded-2xl border-2 border-amber-200 shadow-sm">
+                    <div class="flex items-center justify-between pb-3 border-b border-amber-100 mb-3">
+                        <span class="font-black text-amber-700 text-sm flex items-center gap-1.5">
+                            <i class="fas fa-neuter"></i> O'rta rod (20 ta gap)
+                        </span>
+                        <span class="text-[11px] font-bold text-amber-600 bg-amber-50 px-2 py-0.5 rounded-md">Оно</span>
+                    </div>
+                    <div class="space-y-2.5 max-h-[650px] overflow-y-auto pr-1" id="neuter-sentences"></div>
+                </div>
+
             </div>
         </section>
 
@@ -268,12 +317,11 @@ app_html = """
     </footer>
 
     <script>
-        // OVOZ TIZIMI (WEB SPEECH API - BARCHA BRAUZERLAR VA MOBILLAR UCHUN XAVFSIZ)
+        // OVOZ TIZIMI
         function playSound(text) {
             try {
                 if ('speechSynthesis' in window) {
                     window.speechSynthesis.cancel();
-                    // Audio kontekstini uyg'otish
                     if (window.speechSynthesis.paused) {
                         window.speechSynthesis.resume();
                     }
@@ -286,6 +334,105 @@ app_html = """
             } catch (e) {
                 console.error("Audio xatosi:", e);
             }
+        }
+
+        // ==========================================
+        // HAR BIR ROD UCHUN 20 TADAN GAP (JAMI 60 TA)
+        // ==========================================
+        const maleSentences = [
+            { ru: "Этот большой стол стоит в комнате.", uz: "Bu katta stol xonada turibdi." },
+            { ru: "Мой папа работает инженером на заводе.", uz: "Mening dadam zavodda muhandis bo'lib ishlaydi." },
+            { ru: "Новый дом построили очень быстро.", uz: "Yangi uyni juda tez qurishdi." },
+            { ru: "Старший брат всегда помогает мне учиться.", uz: "Katta akam doim menga o'qishda yordam beradi." },
+            { ru: "Горячий чай согревает в холодный день.", uz: "Issiq choy sovuq kunda isitadi." },
+            { ru: "Русский словарь лежит на моём столе.", uz: "Ruscha lug'at stolim ustida yotibdi." },
+            { ru: "Солнечный день радует всех людей.", uz: "Quyoshli kun barcha insonlarni quvontiradi." },
+            { ru: "Белый карандаш лежит в пенале.", uz: "Oq qalam qalamdonda yotibdi." },
+            { ru: "Маленький кот спит на мягком диване.", uz: "Kichkina mushuk yumshoq divanda uxlayapti." },
+            { ru: "Сладкий арбуз принёс дедушка с базара.", uz: "Shirin tarvuzni bobom bozordan olib keldi." },
+            { ru: "Быстрый поезд едет прямо в Москву.", uz: "Tez yurar poyezd to'g'ri Moskvaga ketyapti." },
+            { ru: "Красивый город сияет вечерними огнями.", uz: "Go'zal shahar kechki chiroqlar bilan charaqlamoqda." },
+            { ru: "Зелёный лес шумит от свежего ветра.", uz: "Yashil o'rmon toza shamoldan shovullaydi." },
+            { ru: "Опытный врач внимательно осматривает больного.", uz: "Tajribali shifokor bemorni diqqat bilan ko'rmoqda." },
+            { ru: "Свежий хлеб очень вкусно пахнет.", uz: "Yangi yopilgan non juda xushbo'y hid taratadi." },
+            { ru: "Умный ученик быстро решил сложную задачу.", uz: "Aqlli o'quvchi qiyin masalani tezda yechdi." },
+            { ru: "Храбрый лев считается царём всех зверей.", uz: "Jasur sher barcha hayvonlarning podshohi hisoblanadi." },
+            { ru: "Новый компьютер работает очень быстро.", uz: "Yangi kompyuter juda tez ishlaydi." },
+            { ru: "Наш школьный класс светлый и просторный.", uz: "Bizning maktab sinfimiz yorug' va keng." },
+            { ru: "Этот спелый банан очень сладкий.", uz: "Bu pishgan banan juda shirin." }
+        ];
+
+        const femaleSentences = [
+            { ru: "Интересная книга открывает новый мир.", uz: "Qiziqarli kitob yangi dunyoni ochadi." },
+            { ru: "Моя добрая мама готовит вкусный обед.", uz: "Mening mehribon onam mazali tushlik tayyorlaydi." },
+            { ru: "Младшая сестра учится в третьем классе.", uz: "Kichik singlim uchinchi sinfda o'qiydi." },
+            { ru: "Синяя ручка аккуратно пишет в тетради.", uz: "Ko'k ruchka daftarga chiroyli yozadi." },
+            { ru: "Школьная тетрадь должна быть чистой.", uz: "Maktab daftari toza bo'lishi kerak." },
+            { ru: "Наша дружная семья живёт в согласии.", uz: "Bizning ahil oilamiz totuvlikda yashaydi." },
+            { ru: "Тёмная ночь накрыла весь город тишиной.", uz: "Qorong'i tun butun shaharni sukunatga burkadi." },
+            { ru: "Новая машина быстро едет по дороге.", uz: "Yangi mashina yo'lda tez ketyapti." },
+            { ru: "Входная дверь была закрыта на ключ.", uz: "Kirish eshigi qulfga yopilgan edi." },
+            { ru: "Красная рыба плавает в прозрачной воде.", uz: "Qizil baliq tiniq suvda suzib yuribdi." },
+            { ru: "Красивая роза цветет в нашем саду.", uz: "Chiroyli atirgul bog'imizda ochilib turibdi." },
+            { ru: "Маленькая птица звонко поёт на ветке.", uz: "Kichkina qush shoxda jarangdor sayramoqda." },
+            { ru: "Спелая груша упала прямо на траву.", uz: "Pishgan nok to'g'ri o'tlar ustiga tushdi." },
+            { ru: "Зимняя шапка надёжно защищает от холода.", uz: "Qishki shapka sovuqdan yaxshi himoya qiladi." },
+            { ru: "Большая школа находится рядом с домом.", uz: "Katta maktab uyimizning yonida joylashgan." },
+            { ru: "Узкая улица ведёт к старинной площади.", uz: "Tor ko'cha qadimiy maydonga olib boradi." },
+            { ru: "Чистая река протекает возле деревни.", uz: "Toza daryo qishloq yonidan oqib o'tadi." },
+            { ru: "Зелёная трава покрыла весенний луг.", uz: "Yashil maysa bahorgi o'tloqni qopladi." },
+            { ru: "Сладкая клубника созрела на грядке.", uz: "Shirin qulupnay polizda yetilib pishdi." },
+            { ru: "Любимая собака радостно встречает хозяина.", uz: "Sevimli it egasini quvonch bilan kutib oladi." }
+        ];
+
+        const neuterSentences = [
+            { ru: "Большое окно пропускает много света.", uz: "Katta deraza juda ko'p yorug'lik o'tkazadi." },
+            { ru: "Синее море спокойно шумит на закате.", uz: "Moviy dengiz quyosh botishida osoyishta shovullaydi." },
+            { ru: "Яркое солнце дарит тепло всей природе.", uz: "Yorqin quyosh butun tabiatga iliqlik ulashadi." },
+            { ru: "Важное письмо доставили вовремя.", uz: "Muhim xatni o'z vaqtida yetkazib berishdi." },
+            { ru: "Красное яблоко лежит на белой тарелке.", uz: "Qizil olma oq tarelka ustida yotibdi." },
+            { ru: "Тёплое молоко очень полезно для детей.", uz: "Iliq sut bolalar uchun juda foydali." },
+            { ru: "Широкое поле простирается до горизонта.", uz: "Keng dala ufqqacha cho'zilib ketgan." },
+            { ru: "Моё имя знают все мои одноклассники.", uz: "Mening ismimni barcha sinfdoshlarim bilishadi." },
+            { ru: "Свободное время я люблю проводить с книгой.", uz: "Bo'sh vaqtimni kitob o'qish bilan o'tkazishni yaxshi ko'raman." },
+            { ru: "Высокое здание построили в центре столицы.", uz: "Baland binoni poytaxt markazida qurishdi." },
+            { ru: "Раннее утро встретило нас прохладой.", uz: "Erta tong bizni salqinlik bilan qarshiladi." },
+            { ru: "Сладкое мороженое особенно вкусно летом.", uz: "Shirin muzqaymoq yozda ayniqsa mazali bo'ladi." },
+            { ru: "Красивое платье отлично подошло сестре.", uz: "Chiroyli ko'ylak singlimga juda yarashdi." },
+            { ru: "Тёплое пальто согреет в морозные дни.", uz: "Issiq palto qahraton kunlarda isitadi." },
+            { ru: "Свежее яйцо добавили в утреннее тесто.", uz: "Yangi tuxumni ertalabki xamirga qo'shishdi." },
+            { ru: "Чистое зеркало висит на стене прихожей.", uz: "Toza oyna yo'lak devorida osilib turibdi." },
+            { ru: "Мягкое одеяло приятно согревает ночью.", uz: "Yumshoq ko'rpa tunda yoqimli isitadi." },
+            { ru: "Сливочное масло положили на свежий хлеб.", uz: "Sariyog'ni yangi non ustiga surtishdi." },
+            { ru: "Зелёное дерево шелестит сочной листвой.", uz: "Yashil daraxt sersuv barglari bilan shitirlaydi." },
+            { ru: "Глубокое озеро славится чистейшей водой.", uz: "Chuqur ko'l o'zining top-toza suvi bilan mashhur." }
+        ];
+
+        function renderGenderSentences() {
+            const renderGroup = (arr, elementId, colorClass, btnBg) => {
+                const el = document.getElementById(elementId);
+                el.innerHTML = '';
+                arr.forEach((item, idx) => {
+                    const row = document.createElement('div');
+                    row.className = "p-2.5 bg-slate-50 hover:bg-slate-100 rounded-xl border border-slate-100 flex flex-col justify-between transition";
+                    row.innerHTML = `
+                        <div class="flex justify-between items-start gap-2 mb-1">
+                            <p class="font-extrabold text-xs text-slate-800 leading-snug">
+                                <span class="font-black ${colorClass}">#${idx + 1}</span> ${item.ru}
+                            </p>
+                            <button onclick="playSound('${item.ru.replace(/'/g, "\\'")}')" class="shrink-0 w-6 h-6 rounded-lg ${btnBg} flex items-center justify-center text-[10px] text-white shadow-sm hover:opacity-90">
+                                <i class="fas fa-volume-high"></i>
+                            </button>
+                        </div>
+                        <p class="text-[11px] font-semibold text-slate-500">${item.uz}</p>
+                    `;
+                    el.appendChild(row);
+                });
+            };
+
+            renderGroup(maleSentences, 'male-sentences', 'text-sky-600', 'bg-sky-500');
+            renderGroup(femaleSentences, 'female-sentences', 'text-rose-600', 'bg-rose-500');
+            renderGroup(neuterSentences, 'neuter-sentences', 'text-amber-600', 'bg-amber-500');
         }
 
         const lettersData = [
@@ -626,6 +773,7 @@ app_html = """
         window.addEventListener('DOMContentLoaded', () => {
             renderAlphabet();
             initCanvas();
+            renderGenderSentences();
             renderTexts(1);
         });
     </script>
@@ -633,5 +781,5 @@ app_html = """
 </html>
 """
 
-# 4. Saytni butun ekran bo'ylab chiqarish
-components.html(app_html, height=1050, scrolling=True)
+# 4. Saytni butun ekran bo'ylab chiqarish (balandlik 1150px)
+components.html(app_html, height=1150, scrolling=True)
