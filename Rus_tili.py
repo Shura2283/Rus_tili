@@ -9,7 +9,7 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-# 2. Streamlit hoshiyalarini to'liq olib tashlash
+# 2. Hoshiyalarni olib tashlash
 st.markdown("""
     <style>
         header {visibility: hidden !important;}
@@ -35,7 +35,7 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# 3. Yangilangan veb-kod
+# 3. Rasmli Test (50 ta savol, 2 variant) qo'shilgan veb-kod
 app_html = """
 <!DOCTYPE html>
 <html lang="uz">
@@ -86,13 +86,16 @@ app_html = """
                 <i class="fas fa-pen-nib text-amber-500"></i> Yozma Harflar
             </button>
             <button onclick="switchTab('gender')" id="tab-gender" class="px-3.5 py-2 rounded-xl text-xs sm:text-sm font-extrabold bg-white text-slate-600 hover:bg-slate-100">
-                <i class="fas fa-venus-mars text-indigo-500"></i> Род имён существительных
+                <i class="fas fa-venus-mars text-indigo-500"></i> Rodlar va 60 Gap
             </button>
             <button onclick="switchTab('texts')" id="tab-texts" class="px-3.5 py-2 rounded-xl text-xs sm:text-sm font-extrabold bg-white text-slate-600 hover:bg-slate-100">
                 <i class="fas fa-book-reader text-sky-500"></i> 50 Matn
             </button>
             <button onclick="switchTab('quiz')" id="tab-quiz" class="px-3.5 py-2 rounded-xl text-xs sm:text-sm font-extrabold bg-white text-slate-600 hover:bg-slate-100">
                 <i class="fas fa-gamepad text-rose-500"></i> Viktorina (50 Test)
+            </button>
+            <button onclick="switchTab('picquiz')" id="tab-picquiz" class="px-3.5 py-2 rounded-xl text-xs sm:text-sm font-extrabold bg-white text-slate-600 hover:bg-slate-100">
+                <i class="fas fa-images text-purple-600"></i> Rasmli Test (50 ta)
             </button>
         </nav>
     </header>
@@ -104,7 +107,7 @@ app_html = """
             <div class="bg-white/90 p-5 rounded-2xl border-2 border-emerald-100 shadow-sm flex flex-wrap justify-between items-center gap-2">
                 <div>
                     <h2 class="text-xl font-black text-slate-800">Русский алфавит (33 буквы)</h2>
-                    <p class="text-xs text-slate-600">Нажмите на карточку или значок звука, чтобы услышать произношение!</p>
+                    <p class="text-xs text-slate-600">Нажмите на карточку, чтобы услышать произношение!</p>
                 </div>
                 <div class="flex gap-2 text-xs font-bold">
                     <span class="px-3 py-1 bg-rose-100 text-rose-700 rounded-full">10 Гласных</span>
@@ -166,7 +169,7 @@ app_html = """
             </div>
         </section>
 
-        <!-- 3. RODLAR (RUS TILIDA SARLAVHALAR VA 60 TA GAP) -->
+        <!-- 3. RODLAR -->
         <section id="section-gender" class="hidden space-y-6">
             <div class="bg-white/90 p-5 rounded-2xl border-2 border-indigo-100 shadow-sm flex flex-wrap justify-between items-center gap-2">
                 <div>
@@ -178,7 +181,6 @@ app_html = """
                 </div>
             </div>
 
-            <!-- Qoidalar kartalari -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div class="bg-white p-5 rounded-2xl border-t-8 border-sky-500 border shadow-sm">
                     <h3 class="text-lg font-black text-sky-600 mb-1 flex items-center justify-between">
@@ -186,70 +188,47 @@ app_html = """
                         <span class="text-xs bg-sky-100 text-sky-700 px-2 py-0.5 rounded-lg">Этот / Мой</span>
                     </h3>
                     <p class="text-xs text-slate-500 mb-2">Оканчивается на согласный, <b>-й</b> или <b>-ь</b>.</p>
-                    <div class="p-2.5 bg-sky-50 rounded-xl text-xs text-slate-700 font-semibold mb-2">
-                        Слова: Стол, Дом, Брат, Чай, Музей, Словарь, День, Папа.
-                    </div>
                 </div>
-
                 <div class="bg-white p-5 rounded-2xl border-t-8 border-rose-500 border shadow-sm">
                     <h3 class="text-lg font-black text-rose-600 mb-1 flex items-center justify-between">
                         <span>Женский род (ОНА)</span>
                         <span class="text-xs bg-rose-100 text-rose-700 px-2 py-0.5 rounded-lg">Эта / Моя</span>
                     </h3>
                     <p class="text-xs text-slate-500 mb-2">Оканчивается на <b>-а</b>, <b>-я</b> или <b>-ь</b>.</p>
-                    <div class="p-2.5 bg-rose-50 rounded-xl text-xs text-slate-700 font-semibold mb-2">
-                        Слова: Книга, Мама, Сестра, Ручка, Семья, Земля, Тетрадь, Ночь.
-                    </div>
                 </div>
-
                 <div class="bg-white p-5 rounded-2xl border-t-8 border-amber-500 border shadow-sm">
                     <h3 class="text-lg font-black text-amber-600 mb-1 flex items-center justify-between">
                         <span>Средний род (ОНО)</span>
                         <span class="text-xs bg-amber-100 text-amber-700 px-2 py-0.5 rounded-lg">Это / Моё</span>
                     </h3>
                     <p class="text-xs text-slate-500 mb-2">Оканчивается на <b>-о</b>, <b>-е</b>, <b>-ё</b> или <b>-мя</b>.</p>
-                    <div class="p-2.5 bg-amber-50 rounded-xl text-xs text-slate-700 font-semibold mb-2">
-                        Слова: Окно, Письмо, Яблоко, Море, Солнце, Поле, Имя, Время.
-                    </div>
                 </div>
             </div>
 
-            <!-- RUS TILIDAGI SARLAVHALAR VA 20 TADAN GAP (JAMI 60 TA) -->
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
-                
-                <!-- 1. МУЖСКОЙ РОД -->
                 <div class="bg-white p-4 rounded-2xl border-2 border-sky-200 shadow-sm">
                     <div class="flex items-center justify-between pb-3 border-b border-sky-100 mb-3">
-                        <span class="font-black text-sky-700 text-sm flex items-center gap-1.5">
-                            <i class="fas fa-mars"></i> Мужской род (20 предложений)
-                        </span>
+                        <span class="font-black text-sky-700 text-sm"><i class="fas fa-mars"></i> Мужской род (20 предложений)</span>
                         <span class="text-[11px] font-bold text-sky-600 bg-sky-50 px-2 py-0.5 rounded-md">Он</span>
                     </div>
                     <div class="space-y-2.5 max-h-[650px] overflow-y-auto pr-1" id="male-sentences"></div>
                 </div>
 
-                <!-- 2. ЖЕНСКИЙ РОД -->
                 <div class="bg-white p-4 rounded-2xl border-2 border-rose-200 shadow-sm">
                     <div class="flex items-center justify-between pb-3 border-b border-rose-100 mb-3">
-                        <span class="font-black text-rose-700 text-sm flex items-center gap-1.5">
-                            <i class="fas fa-venus"></i> Женский род (20 предложений)
-                        </span>
+                        <span class="font-black text-rose-700 text-sm"><i class="fas fa-venus"></i> Женский род (20 предложений)</span>
                         <span class="text-[11px] font-bold text-rose-600 bg-rose-50 px-2 py-0.5 rounded-md">Она</span>
                     </div>
                     <div class="space-y-2.5 max-h-[650px] overflow-y-auto pr-1" id="female-sentences"></div>
                 </div>
 
-                <!-- 3. СРЕДНИЙ РОД -->
                 <div class="bg-white p-4 rounded-2xl border-2 border-amber-200 shadow-sm">
                     <div class="flex items-center justify-between pb-3 border-b border-amber-100 mb-3">
-                        <span class="font-black text-amber-700 text-sm flex items-center gap-1.5">
-                            <i class="fas fa-neuter"></i> Средний род (20 предложений)
-                        </span>
+                        <span class="font-black text-amber-700 text-sm"><i class="fas fa-neuter"></i> Средний род (20 предложений)</span>
                         <span class="text-[11px] font-bold text-amber-600 bg-amber-50 px-2 py-0.5 rounded-md">Оно</span>
                     </div>
                     <div class="space-y-2.5 max-h-[650px] overflow-y-auto pr-1" id="neuter-sentences"></div>
                 </div>
-
             </div>
         </section>
 
@@ -263,7 +242,7 @@ app_html = """
             <div class="flex justify-center gap-2 mt-4" id="texts-pagination"></div>
         </section>
 
-        <!-- 5. VIKTORINA -->
+        <!-- 5. HARFLAR BO'YICHA VIKTORINA -->
         <section id="section-quiz" class="hidden max-w-2xl mx-auto space-y-4">
             <div id="quiz-question-box" class="bg-white rounded-2xl p-6 border-2 border-rose-200 shadow-sm">
                 <div class="flex justify-between items-center pb-3 border-b mb-4">
@@ -304,10 +283,88 @@ app_html = """
                 <div id="res-grade-badge" class="inline-block px-4 py-2 rounded-xl text-xs font-bold"></div>
                 <div>
                     <button onclick="startQuizSession()" class="px-6 py-2.5 bg-emerald-500 hover:bg-emerald-600 text-white rounded-xl font-bold text-xs shadow-md">
-                        Пройти снова (Новые 50 вопросов)
+                        Пройти снова
                     </button>
                 </div>
             </div>
+        </section>
+
+        <!-- 6. YANGI BO'LIM: 50 TA RASMLI TEST (2 VARIANTLI TANLOV, HAR VARIANTDA 25 SAVOL) -->
+        <section id="section-picquiz" class="hidden max-w-2xl mx-auto space-y-4">
+            
+            <!-- Variant tanlash tugmalari -->
+            <div class="bg-white rounded-2xl p-4 border-2 border-purple-200 shadow-sm flex flex-wrap justify-between items-center gap-2">
+                <div>
+                    <h3 class="font-black text-purple-900 text-base">🖼️ Rasmli Test (Jami 50 ta savol)</h3>
+                    <p class="text-xs text-slate-500">Rasmdagi narsaning to'g'ri ruscha nomini tanlang (2 variantdan biri):</p>
+                </div>
+                <div class="flex gap-2">
+                    <button onclick="switchPicVariant(1)" id="btn-pic-var1" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-purple-600 text-white shadow">
+                        1-variant (1-25)
+                    </button>
+                    <button onclick="switchPicVariant(2)" id="btn-pic-var2" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-100 text-slate-700 hover:bg-slate-200">
+                        2-variant (26-50)
+                    </button>
+                </div>
+            </div>
+
+            <!-- Rasmli test o'yin paneli -->
+            <div id="picquiz-question-box" class="bg-white rounded-2xl p-6 border-2 border-purple-200 shadow-sm">
+                <div class="flex justify-between items-center pb-3 border-b mb-4">
+                    <span class="text-sm font-black text-slate-700">
+                        Savol: <span id="picquiz-num" class="text-purple-600 font-extrabold">1</span> / 25
+                    </span>
+                    <span class="text-sm font-black text-emerald-600">
+                        Ball: <span id="picquiz-score">0</span> / 50
+                    </span>
+                </div>
+
+                <div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden mb-4">
+                    <div id="picquiz-progress-bar" class="bg-purple-600 h-full w-[4%] transition-all"></div>
+                </div>
+
+                <!-- Rasm va ma'lumot -->
+                <div class="p-4 bg-slate-50 rounded-2xl text-center border flex flex-col items-center">
+                    <div class="w-full max-w-[340px] h-52 rounded-xl overflow-hidden shadow-inner border-2 border-white mb-3 bg-slate-200">
+                        <img id="picquiz-img" src="" alt="Test" class="w-full h-full object-cover">
+                    </div>
+                    <p id="picquiz-uz-hint" class="text-base font-extrabold text-slate-700 mb-2"></p>
+                    <button onclick="playPicQuizAudio()" class="px-4 py-1.5 bg-purple-100 text-purple-700 hover:bg-purple-200 rounded-xl text-xs font-bold inline-flex items-center gap-1.5 transition">
+                        <i class="fas fa-volume-high"></i> To'g'ri talaffuzni eshitish
+                    </button>
+                </div>
+
+                <!-- 2 TA VARIANT (A va B) -->
+                <div class="grid grid-cols-2 gap-4 mt-5" id="picquiz-options"></div>
+
+                <div id="picquiz-feedback" class="mt-3 text-center font-bold text-sm h-6"></div>
+
+                <div class="mt-4 flex justify-end">
+                    <button id="picquiz-next-btn" onclick="goToNextPicQuestion()" disabled class="px-5 py-2 bg-slate-200 text-slate-400 rounded-xl font-bold text-xs transition cursor-not-allowed">
+                        Keyingi rasm ➜
+                    </button>
+                </div>
+            </div>
+
+            <!-- Rasmli test natijasi -->
+            <div id="picquiz-result-box" class="hidden bg-white rounded-2xl p-8 border-2 border-purple-300 text-center space-y-4">
+                <div class="w-20 h-20 mx-auto rounded-full bg-purple-600 text-white text-3xl flex items-center justify-center shadow-lg shadow-purple-200">
+                    <i class="fas fa-image"></i>
+                </div>
+                <h3 class="text-2xl font-black text-slate-800">Rasmli Test Yakunlandi!</h3>
+                <div class="grid grid-cols-3 gap-2 max-w-sm mx-auto p-3 bg-slate-50 rounded-2xl">
+                    <div class="p-2 bg-white rounded-xl shadow-sm"><span class="text-xs text-slate-400 block font-bold">Ball</span><span id="picres-total-score" class="text-xl font-black text-emerald-600">0</span></div>
+                    <div class="p-2 bg-white rounded-xl shadow-sm"><span class="text-xs text-slate-400 block font-bold">To'g'ri</span><span id="picres-correct-count" class="text-xl font-black text-purple-600">0</span></div>
+                    <div class="p-2 bg-white rounded-xl shadow-sm"><span class="text-xs text-slate-400 block font-bold">Xato</span><span id="picres-wrong-count" class="text-xl font-black text-rose-500">0</span></div>
+                </div>
+                <div id="picres-grade-badge" class="inline-block px-4 py-2 rounded-xl text-xs font-bold"></div>
+                <div>
+                    <button onclick="restartCurrentPicVariant()" class="px-6 py-2.5 bg-purple-600 hover:bg-purple-700 text-white rounded-xl font-bold text-xs shadow-md">
+                        Qaytadan topshirish
+                    </button>
+                </div>
+            </div>
+
         </section>
 
     </main>
@@ -317,14 +374,11 @@ app_html = """
     </footer>
 
     <script>
-        // OVOZ TIZIMI
         function playSound(text) {
             try {
                 if ('speechSynthesis' in window) {
                     window.speechSynthesis.cancel();
-                    if (window.speechSynthesis.paused) {
-                        window.speechSynthesis.resume();
-                    }
+                    if (window.speechSynthesis.paused) window.speechSynthesis.resume();
                     const u = new SpeechSynthesisUtterance(text);
                     u.lang = 'ru-RU';
                     u.rate = 0.85;
@@ -337,8 +391,279 @@ app_html = """
         }
 
         // ==========================================
-        // 60 TA GAP (20 TADAN HAR BIR RODGA)
+        // 50 TA RASMLI TEST BAZASI (INTERNET RASMLARI BILAN)
         // ==========================================
+        const picQuiz50 = [
+            // 1-VARIANT: 1 - 25
+            { ru: "Яблоко", uz: "Bu nima? (Olma)", wrong: "Апельсин", img: "https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?auto=format&fit=crop&w=600&q=80" },
+            { ru: "Кот", uz: "Bu nima? (Mushuk)", wrong: "Собака", img: "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&w=600&q=80" },
+            { ru: "Дом", uz: "Bu nima? (Uy)", wrong: "Школа", img: "https://images.unsplash.com/photo-1518780664697-55e3ad937233?auto=format&fit=crop&w=600&q=80" },
+            { ru: "Машина", uz: "Bu nima? (Mashina)", wrong: "Поезд", img: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=600&q=80" },
+            { ru: "Книга", uz: "Bu nima? (Kitob)", wrong: "Тетрадь", img: "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=600&q=80" },
+            { ru: "Солнце", uz: "Bu nima? (Quyosh)", wrong: "Луна", img: "https://images.unsplash.com/photo-1532767153582-b1a0e5145009?auto=format&fit=crop&w=600&q=80" },
+            { ru: "Хлеб", uz: "Bu nima? (Non)", wrong: "Торт", img: "https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=600&q=80" },
+            { ru: "Арбуз", uz: "Bu nima? (Tarvuz)", wrong: "Дыня", img: "https://images.unsplash.com/photo-1587049352846-4a222e784d38?auto=format&fit=crop&w=600&q=80" },
+            { ru: "Цветок", uz: "Bu nima? (Gul)", wrong: "Дерево", img: "https://images.unsplash.com/photo-1490750967868-88aa4486c946?auto=format&fit=crop&w=600&q=80" },
+            { ru: "Рыба", uz: "Bu nima? (Baliq)", wrong: "Птица", img: "https://images.unsplash.com/photo-1522069169874-c58ec4b76be5?auto=format&fit=crop&w=600&q=80" },
+            { ru: "Банан", uz: "Bu nima? (Banan)", wrong: "Лимон", img: "https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?auto=format&fit=crop&w=600&q=80" },
+            { ru: "Часы", uz: "Bu nima? (Soat)", wrong: "Очки", img: "https://images.unsplash.com/photo-1524805444758-089113d48a6d?auto=format&fit=crop&w=600&q=80" },
+            { ru: "Птица", uz: "Bu nima? (Qush)", wrong: "Бабочка", img: "https://images.unsplash.com/photo-1444464666168-49d633b86797?auto=format&fit=crop&w=600&q=80" },
+            { ru: "Дерево", uz: "Bu nima? (Daraxt)", wrong: "Трава", img: "https://images.unsplash.com/photo-1502082553048-f009c37129b9?auto=format&fit=crop&w=600&q=80" },
+            { ru: "Чай", uz: "Bu nima? (Choy)", wrong: "Молоко", img: "https://images.unsplash.com/photo-1544787219-7f47ccb76574?auto=format&fit=crop&w=600&q=80" },
+            { ru: "Молоко", uz: "Bu nima? (Sut)", wrong: "Вода", img: "https://images.unsplash.com/photo-1550583724-b2692b85b150?auto=format&fit=crop&w=600&q=80" },
+            { ru: "Стол", uz: "Bu nima? (Stol)", wrong: "Стул", img: "https://images.unsplash.com/photo-1533090161767-e6ffed986c88?auto=format&fit=crop&w=600&q=80" },
+            { ru: "Стул", uz: "Bu nima? (Stul)", wrong: "Диван", img: "https://images.unsplash.com/photo-1503602642458-232111445657?auto=format&fit=crop&w=600&q=80" },
+            { ru: "Карандаш", uz: "Bu nima? (Qalam)", wrong: "Ручка", img: "https://images.unsplash.com/photo-1585336261026-77894a861616?auto=format&fit=crop&w=600&q=80" },
+            { ru: "Ручка", uz: "Bu nima? (Ruchka)", wrong: "Ножницы", img: "https://images.unsplash.com/photo-1583485088034-697b5bc54ccd?auto=format&fit=crop&w=600&q=80" },
+            { ru: "Шапка", uz: "Bu nima? (Shapka)", wrong: "Шарф", img: "https://images.unsplash.com/photo-1576871337622-98d48d1cf531?auto=format&fit=crop&w=600&q=80" },
+            { ru: "Окно", uz: "Bu nima? (Deraza)", wrong: "Дверь", img: "https://images.unsplash.com/photo-1509644851169-2acc08aa25b5?auto=format&fit=crop&w=600&q=80" },
+            { ru: "Дверь", uz: "Bu nima? (Eshik)", wrong: "Стена", img: "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=600&q=80" },
+            { ru: "Гриб", uz: "Bu nima? (Qo'ziqorin)", wrong: "Ягода", img: "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=600&q=80" },
+            { ru: "Сыр", uz: "Bu nima? (Pishloq)", wrong: "Масло", img: "https://images.unsplash.com/photo-1486297678162-eb2a19b0a32d?auto=format&fit=crop&w=600&q=80" },
+
+            // 2-VARIANT: 26 - 50
+            { ru: "Собака", uz: "Bu nima? (It)", wrong: "Волк", img: "https://images.unsplash.com/photo-1543466835-00a7907e9de1?auto=format&fit=crop&w=600&q=80" },
+            { ru: "Волк", uz: "Bu nima? (Bo'ri)", wrong: "Лиса", img: "https://images.unsplash.com/photo-1564466809058-bf4114d55352?auto=format&fit=crop&w=600&q=80" },
+            { ru: "Медведь", uz: "Bu nima? (Ayiq)", wrong: "Тигр", img: "https://images.unsplash.com/photo-1530595467537-0b5996c41f2d?auto=format&fit=crop&w=600&q=80" },
+            { ru: "Тигр", uz: "Bu nima? (Yo'lbars)", wrong: "Лев", img: "https://images.unsplash.com/photo-1561731216-c3a4d99437d5?auto=format&fit=crop&w=600&q=80" },
+            { ru: "Заяц", uz: "Bu nima? (Quyon)", wrong: "Еж", img: "https://images.unsplash.com/photo-1585110396000-c9ffd4e4b308?auto=format&fit=crop&w=600&q=80" },
+            { ru: "Лимон", uz: "Bu nima? (Limon)", wrong: "Апельсин", img: "https://images.unsplash.com/photo-1533038590840-1cde6e668a91?auto=format&fit=crop&w=600&q=80" },
+            { ru: "Апельсин", uz: "Bu nima? (Apelsin)", wrong: "Яблоко", img: "https://images.unsplash.com/photo-1582979512210-99b6a53386f9?auto=format&fit=crop&w=600&q=80" },
+            { ru: "Морковь", uz: "Bu nima? (Sabzi)", wrong: "Огурец", img: "https://images.unsplash.com/photo-1598170845058-32b9d6a5c317?auto=format&fit=crop&w=600&q=80" },
+            { ru: "Огурец", uz: "Bu nima? (Bodring)", wrong: "Помидор", img: "https://images.unsplash.com/photo-1604977042946-1eecc30f269e?auto=format&fit=crop&w=600&q=80" },
+            { ru: "Помидор", uz: "Bu nima? (Pomidor)", wrong: "Яблоко", img: "https://images.unsplash.com/photo-1592924357228-91a4daadcfea?auto=format&fit=crop&w=600&q=80" },
+            { ru: "Картофель", uz: "Bu nima? (Kartoshka)", wrong: "Лук", img: "https://images.unsplash.com/photo-1518977676601-b53f82aba655?auto=format&fit=crop&w=600&q=80" },
+            { ru: "Самолет", uz: "Bu nima? (Samolyot)", wrong: "Вертолет", img: "https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?auto=format&fit=crop&w=600&q=80" },
+            { ru: "Поезд", uz: "Bu nima? (Poyezd)", wrong: "Автобус", img: "https://images.unsplash.com/photo-1474487548417-781cb71495f3?auto=format&fit=crop&w=600&q=80" },
+            { ru: "Корабль", uz: "Bu nima? (Kema)", wrong: "Лодка", img: "https://images.unsplash.com/photo-1559136555-9303baea8ebd?auto=format&fit=crop&w=600&q=80" },
+            { ru: "Велосипед", uz: "Bu nima? (Velosiped)", wrong: "Машина", img: "https://images.unsplash.com/photo-1485965120184-e220f721d03e?auto=format&fit=crop&w=600&q=80" },
+            { ru: "Луна", uz: "Bu nima? (Oy)", wrong: "Солнце", img: "https://images.unsplash.com/photo-1532693322450-2cb5c511067d?auto=format&fit=crop&w=600&q=80" },
+            { ru: "Звезда", uz: "Bu nima? (Yulduz)", wrong: "Облако", img: "https://images.unsplash.com/photo-1506703719100-a0f3a48c0f86?auto=format&fit=crop&w=600&q=80" },
+            { ru: "Снег", uz: "Bu nima? (Qor)", wrong: "Дождь", img: "https://images.unsplash.com/photo-1517299321609-52687d1bc55a?auto=format&fit=crop&w=600&q=80" },
+            { ru: "Очки", uz: "Bu nima? (Ko'zoynak)", wrong: "Часы", img: "https://images.unsplash.com/photo-1511499767150-a48a237f0083?auto=format&fit=crop&w=600&q=80" },
+            { ru: "Зонт", uz: "Bu nima? (Soyabon)", wrong: "Шляпа", img: "https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=600&q=80" },
+            { ru: "Море", uz: "Bu nima? (Dengiz)", wrong: "Река", img: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=600&q=80" },
+            { ru: "Гора", uz: "Bu nima? (Tog')", wrong: "Холм", img: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=600&q=80" },
+            { ru: "Телефон", uz: "Bu nima? (Telefon)", wrong: "Компьютер", img: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=600&q=80" },
+            { ru: "Торт", uz: "Bu nima? (Tort)", wrong: "Хлеб", img: "https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=600&q=80" },
+            { ru: "Бабочка", uz: "Bu nima? (Kapalak)", wrong: "Птица", img: "https://images.unsplash.com/photo-1559253664-ca249d4608c6?auto=format&fit=crop&w=600&q=80" }
+        ];
+
+        let currentPicVariant = 1;
+        let picQuestions = [];
+        let currPicIdx = 0;
+        let picScore = 0;
+        let picCorrectCount = 0;
+        let isPicAnswered = false;
+
+        function switchPicVariant(v) {
+            currentPicVariant = v;
+            document.getElementById('btn-pic-var1').className = v === 1 ? "px-3 py-1.5 rounded-xl text-xs font-bold bg-purple-600 text-white shadow" : "px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-100 text-slate-700 hover:bg-slate-200";
+            document.getElementById('btn-pic-var2').className = v === 2 ? "px-3 py-1.5 rounded-xl text-xs font-bold bg-purple-600 text-white shadow" : "px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-100 text-slate-700 hover:bg-slate-200";
+            initPicVariantQuestions();
+        }
+
+        function initPicVariantQuestions() {
+            if (currentPicVariant === 1) {
+                picQuestions = picQuiz50.slice(0, 25);
+            } else {
+                picQuestions = picQuiz50.slice(25, 50);
+            }
+            currPicIdx = 0;
+            picScore = 0;
+            picCorrectCount = 0;
+            document.getElementById('picquiz-question-box').classList.remove('hidden');
+            document.getElementById('picquiz-result-box').classList.add('hidden');
+            loadPicQuestion(0);
+        }
+
+        function loadPicQuestion(idx) {
+            isPicAnswered = false;
+            const item = picQuestions[idx];
+
+            document.getElementById('picquiz-num').textContent = idx + 1;
+            document.getElementById('picquiz-score').textContent = picScore;
+            document.getElementById('picquiz-progress-bar').style.width = `${((idx + 1) / 25) * 100}%`;
+
+            document.getElementById('picquiz-img').src = item.img;
+            document.getElementById('picquiz-uz-hint').textContent = item.uz;
+            document.getElementById('picquiz-feedback').textContent = '';
+
+            const nextBtn = document.getElementById('picquiz-next-btn');
+            nextBtn.disabled = true;
+            nextBtn.className = "px-5 py-2 bg-slate-200 text-slate-400 rounded-xl font-bold text-xs transition cursor-not-allowed";
+
+            // 2 ta variant (1 ta to'g'ri, 1 ta xato)
+            const opts = [item.ru, item.wrong].sort(() => 0.5 - Math.random());
+            const optBox = document.getElementById('picquiz-options');
+            optBox.innerHTML = '';
+
+            const labels = ['A', 'B'];
+            opts.forEach((text, i) => {
+                const btn = document.createElement('button');
+                btn.className = "pic-opt-btn p-4 bg-white border-2 border-slate-200 hover:border-purple-400 hover:bg-purple-50/50 rounded-2xl flex items-center gap-3 transition shadow-sm font-extrabold text-lg text-slate-800 active:scale-95";
+                btn.innerHTML = `
+                    <span class="w-8 h-8 rounded-xl bg-purple-100 text-purple-700 text-xs flex items-center justify-center font-black">
+                        ${labels[i]}
+                    </span>
+                    <span class="flex-1 text-center font-black text-xl">${text}</span>
+                `;
+                btn.onclick = () => selectPicAnswer(text, btn, item);
+                optBox.appendChild(btn);
+            });
+        }
+
+        function playPicQuizAudio() {
+            playSound(picQuestions[currPicIdx].ru);
+        }
+
+        function selectPicAnswer(selectedText, btn, item) {
+            if (isPicAnswered) return;
+            isPicAnswered = true;
+
+            const allBtns = document.querySelectorAll('.pic-opt-btn');
+            allBtns.forEach(b => b.classList.add('cursor-default'));
+
+            if (selectedText === item.ru) {
+                btn.className = "p-4 bg-emerald-500 border-2 border-emerald-600 rounded-2xl flex items-center gap-3 text-white shadow-md font-extrabold text-lg";
+                btn.querySelector('span').className = "w-8 h-8 rounded-xl bg-emerald-600 text-white text-xs flex items-center justify-center font-black";
+                picScore += 2;
+                picCorrectCount++;
+                document.getElementById('picquiz-score').textContent = picScore;
+                document.getElementById('picquiz-feedback').className = "mt-3 text-center font-bold text-sm h-6 text-emerald-600";
+                document.getElementById('picquiz-feedback').textContent = `✔ To'g'ri! (+2 ball): ${item.ru}`;
+                playSound(`Правильно! ${item.ru}`);
+            } else {
+                btn.className = "p-4 bg-rose-500 border-2 border-rose-600 rounded-2xl flex items-center gap-3 text-white shadow-md font-extrabold text-lg";
+                btn.querySelector('span').className = "w-8 h-8 rounded-xl bg-rose-600 text-white text-xs flex items-center justify-center font-black";
+
+                allBtns.forEach(b => {
+                    if (b.innerText.includes(item.ru)) {
+                        b.className = "p-4 bg-emerald-500 border-2 border-emerald-600 rounded-2xl flex items-center gap-3 text-white shadow-md font-extrabold text-lg";
+                        b.querySelector('span').className = "w-8 h-8 rounded-xl bg-emerald-600 text-white text-xs flex items-center justify-center font-black";
+                    }
+                });
+
+                document.getElementById('picquiz-feedback').className = "mt-3 text-center font-bold text-sm h-6 text-rose-500";
+                document.getElementById('picquiz-feedback').textContent = `✖ Noto'g'ri! To'g'ri javob: ${item.ru}`;
+                playSound(`Неправильно. Это ${item.ru}`);
+            }
+
+            const nextBtn = document.getElementById('picquiz-next-btn');
+            nextBtn.disabled = false;
+            nextBtn.className = "px-5 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-xl font-bold text-xs transition cursor-pointer shadow-md";
+        }
+
+        function goToNextPicQuestion() {
+            if (currPicIdx < 24) {
+                currPicIdx++;
+                loadPicQuestion(currPicIdx);
+            } else {
+                showPicResult();
+            }
+        }
+
+        function showPicResult() {
+            document.getElementById('picquiz-question-box').classList.add('hidden');
+            const resBox = document.getElementById('picquiz-result-box');
+            resBox.classList.remove('hidden');
+
+            document.getElementById('picres-total-score').textContent = `${picScore} / 50`;
+            document.getElementById('picres-correct-count').textContent = picCorrectCount;
+            document.getElementById('picres-wrong-count').textContent = 25 - picCorrectCount;
+
+            const b = document.getElementById('picres-grade-badge');
+            if (picScore >= 44) {
+                b.className = "inline-block px-4 py-2 rounded-xl text-xs font-bold bg-emerald-100 text-emerald-800";
+                b.textContent = "A'lo! Barcha rasmlarni juda yaxshi o'zlashtirdingiz (5 Baho)";
+            } else if (picScore >= 34) {
+                b.className = "inline-block px-4 py-2 rounded-xl text-xs font-bold bg-sky-100 text-sky-800";
+                b.textContent = "Yaxshi natija! (4 Baho)";
+            } else if (picScore >= 24) {
+                b.className = "inline-block px-4 py-2 rounded-xl text-xs font-bold bg-amber-100 text-amber-800";
+                b.textContent = "Qoniqarli (3 Baho)";
+            } else {
+                b.className = "inline-block px-4 py-2 rounded-xl text-xs font-bold bg-rose-100 text-rose-800";
+                b.textContent = "Qaytadan urinib ko'ring!";
+            }
+        }
+
+        function restartCurrentPicVariant() {
+            initPicVariantQuestions();
+        }
+
+        // ==========================================
+        // ALIFBO, CANVAS, RODLAR VA ESKI VIKTORINA
+        // ==========================================
+        const lettersData = [
+            { char: 'А', small: 'а', type: 'unli', word: 'Арбуз', uz: 'Tarvuz', img: 'https://images.unsplash.com/photo-1587049352846-4a222e784d38?auto=format&fit=crop&w=400&q=80' },
+            { char: 'Б', small: 'б', type: 'undosh', word: 'Бабочка', uz: 'Kapalak', img: 'https://images.unsplash.com/photo-1559253664-ca249d4608c6?auto=format&fit=crop&w=400&q=80' },
+            { char: 'В', small: 'в', type: 'undosh', word: 'Волк', uz: 'Bo‘ri', img: 'https://images.unsplash.com/photo-1564466809058-bf4114d55352?auto=format&fit=crop&w=400&q=80' },
+            { char: 'Г', small: 'г', type: 'undosh', word: 'Гриб', uz: 'Qo‘ziqorin', img: 'https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=400&q=80' },
+            { char: 'Д', small: 'д', type: 'undosh', word: 'Дом', uz: 'Uy', img: 'https://images.unsplash.com/photo-1518780664697-55e3ad937233?auto=format&fit=crop&w=400&q=80' },
+            { char: 'Е', small: 'е', type: 'unli', word: 'Ель', uz: 'Archa', img: 'https://images.unsplash.com/photo-1512496015851-a90fb38ba796?auto=format&fit=crop&w=400&q=80' },
+            { char: 'Ё', small: 'ё', type: 'unli', word: 'Ёж', uz: 'Tipratikan', img: 'https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=400&q=80' },
+            { char: 'Ж', small: 'ж', type: 'undosh', word: 'Жираф', uz: 'Jirafa', img: 'https://images.unsplash.com/photo-1538099130811-745e64318258?auto=format&fit=crop&w=400&q=80' },
+            { char: 'З', small: 'з', type: 'undosh', word: 'Заяц', uz: 'Quyon', img: 'https://images.unsplash.com/photo-1585110396000-c9ffd4e4b308?auto=format&fit=crop&w=400&q=80' },
+            { char: 'И', small: 'и', type: 'unli', word: 'Игла', uz: 'Igna', img: 'https://images.unsplash.com/photo-1584824486509-112e4181ff6b?auto=format&fit=crop&w=400&q=80' },
+            { char: 'Й', small: 'й', type: 'undosh', word: 'Йогурт', uz: 'Yogurt', img: 'https://images.unsplash.com/photo-1488477181946-6428a0291777?auto=format&fit=crop&w=400&q=80' },
+            { char: 'К', small: 'к', type: 'undosh', word: 'Кот', uz: 'Mushuk', img: 'https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&w=400&q=80' },
+            { char: 'Л', small: 'л', type: 'undosh', word: 'Лимон', uz: 'Limon', img: 'https://images.unsplash.com/photo-1533038590840-1cde6e668a91?auto=format&fit=crop&w=400&q=80' },
+            { char: 'М', small: 'м', type: 'undosh', word: 'Медведь', uz: 'Ayiq', img: 'https://images.unsplash.com/photo-1530595467537-0b5996c41f2d?auto=format&fit=crop&w=400&q=80' },
+            { char: 'Н', small: 'н', type: 'undosh', word: 'Ножницы', uz: 'Qaychi', img: 'https://images.unsplash.com/photo-1503792501406-2c40da09e1e2?auto=format&fit=crop&w=400&q=80' },
+            { char: 'О', small: 'о', type: 'unli', word: 'Окно', uz: 'Deraza', img: 'https://images.unsplash.com/photo-1509644851169-2acc08aa25b5?auto=format&fit=crop&w=400&q=80' },
+            { char: 'П', small: 'п', type: 'undosh', word: 'Птица', uz: 'Qush', img: 'https://images.unsplash.com/photo-1444464666168-49d633b86797?auto=format&fit=crop&w=400&q=80' },
+            { char: 'Р', small: 'р', type: 'undosh', word: 'Рыба', uz: 'Baliq', img: 'https://images.unsplash.com/photo-1522069169874-c58ec4b76be5?auto=format&fit=crop&w=400&q=80' },
+            { char: 'С', small: 'с', type: 'undosh', word: 'Солнце', uz: 'Quyosh', img: 'https://images.unsplash.com/photo-1532767153582-b1a0e5145009?auto=format&fit=crop&w=400&q=80' },
+            { char: 'Т', small: 'т', type: 'undosh', word: 'Тигр', uz: 'Yo‘lbars', img: 'https://images.unsplash.com/photo-1561731216-c3a4d99437d5?auto=format&fit=crop&w=400&q=80' },
+            { char: 'У', small: 'у', type: 'unli', word: 'Утка', uz: 'O‘rdak', img: 'https://images.unsplash.com/photo-1555854877-bab0e564b8d5?auto=format&fit=crop&w=400&q=80' },
+            { char: 'Ф', small: 'ф', type: 'undosh', word: 'Флаг', uz: 'Bayroq', img: 'https://images.unsplash.com/photo-1508873696983-2df57046475a?auto=format&fit=crop&w=400&q=80' },
+            { char: 'Х', small: 'х', type: 'undosh', word: 'Хлеб', uz: 'Non', img: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=400&q=80' },
+            { char: 'Ц', small: 'ц', type: 'undosh', word: 'Цветок', uz: 'Gul', img: 'https://images.unsplash.com/photo-1490750967868-88aa4486c946?auto=format&fit=crop&w=400&q=80' },
+            { char: 'Ч', small: 'ч', type: 'undosh', word: 'Часы', uz: 'Soat', img: 'https://images.unsplash.com/photo-1524805444758-089113d48a6d?auto=format&fit=crop&w=400&q=80' },
+            { char: 'Ш', small: 'ш', type: 'undosh', word: 'Шапка', uz: 'Shapka', img: 'https://images.unsplash.com/photo-1576871337622-98d48d1cf531?auto=format&fit=crop&w=400&q=80' },
+            { char: 'Щ', small: 'щ', type: 'undosh', word: 'Щётка', uz: 'Cho‘tka', img: 'https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?auto=format&fit=crop&w=400&q=80' },
+            { char: 'Ъ', small: 'ъ', type: 'belgi', word: 'Подъезд', uz: 'Podyezd', img: 'https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=400&q=80' },
+            { char: 'Ы', small: 'ы', type: 'unli', word: 'Сыр', uz: 'Pishloq', img: 'https://images.unsplash.com/photo-1486297678162-eb2a19b0a32d?auto=format&fit=crop&w=400&q=80' },
+            { char: 'Ь', small: 'ь', type: 'belgi', word: 'Конь', uz: 'Ot (hayvon)', img: 'https://images.unsplash.com/photo-1553284965-83fd3e82fa5a?auto=format&fit=crop&w=400&q=80' },
+            { char: 'Э', small: 'э', type: 'unli', word: 'Экран', uz: 'Ekran', img: 'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=400&q=80' },
+            { char: 'Ю', small: 'ю', type: 'unli', word: 'Юбка', uz: 'Yubka', img: 'https://images.unsplash.com/photo-1583496661160-fb5886a0aaaa?auto=format&fit=crop&w=400&q=80' },
+            { char: 'Я', small: 'я', type: 'unli', word: 'Яблоко', uz: 'Olma', img: 'https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?auto=format&fit=crop&w=400&q=80' }
+        ];
+
+        const quizWords200 = [
+            { ru: 'Арбуз', uz: 'Tarvuz', char: 'А' }, { ru: 'Ананас', uz: 'Ananas', char: 'А' }, { ru: 'Автобус', uz: 'Avtobus', char: 'А' }, { ru: 'Апельсин', uz: 'Apelsin', char: 'А' }, { ru: 'Альбом', uz: 'Albom', char: 'А' }, { ru: 'Акула', uz: 'Akula', char: 'А' },
+            { ru: 'Бабочка', uz: 'Kapalak', char: 'Б' }, { ru: 'Банан', uz: 'Banan', char: 'Б' }, { ru: 'Брат', uz: 'Aka / Uka', char: 'Б' }, { ru: 'Бумага', uz: 'Qog‘oz', char: 'Б' }, { ru: 'Берёза', uz: 'Qayin daraxti', char: 'Б' }, { ru: 'Барабан', uz: 'Nog‘ora', char: 'Б' },
+            { ru: 'Волк', uz: 'Bo‘ri', char: 'В' }, { ru: 'Вода', uz: 'Suv', char: 'В' }, { ru: 'Воздух', uz: 'Havo', char: 'В' }, { ru: 'Ветер', uz: 'Shamol', char: 'В' }, { ru: 'Время', uz: 'Vaqt', char: 'В' }, { ru: 'Врач', uz: 'Shifokor', char: 'В' },
+            { ru: 'Гриб', uz: 'Qo‘ziqorin', char: 'Г' }, { ru: 'Город', uz: 'Shahar', char: 'Г' }, { ru: 'Глаз', uz: 'Ko‘z', char: 'Г' }, { ru: 'Груша', uz: 'Nok', char: 'Г' }, { ru: 'Гора', uz: 'Tog‘', char: 'Г' }, { ru: 'Голова', uz: 'Bosh', char: 'Г' },
+            { ru: 'Дом', uz: 'Uy', char: 'Д' }, { ru: 'Дверь', uz: 'Eshik', char: 'Д' }, { ru: 'Друг', uz: 'Do‘st', char: 'Д' }, { ru: 'Дерево', uz: 'Daraxt', char: 'Д' }, { ru: 'Дождь', uz: 'Yomg‘ir', char: 'Д' }, { ru: 'Дорога', uz: 'Yo‘l', char: 'Д' },
+            { ru: 'Ель', uz: 'Archa', char: 'Е' }, { ru: 'Енот', uz: 'Yenot', char: 'Е' }, { ru: 'Еда', uz: 'Ovqat', char: 'Е' }, { ru: 'Ежевика', uz: 'Maymunjon', char: 'Е' },
+            { ru: 'Ёж', uz: 'Tipratikan', char: 'Ё' }, { ru: 'Ёлка', uz: 'Yangi yil archasi', char: 'Ё' }, { ru: 'Ёрш', uz: 'Baliqcha', char: 'Ё' },
+            { ru: 'Жираф', uz: 'Jirafa', char: 'Ж' }, { ru: 'Жук', uz: 'Qo‘ng‘iz', char: 'Ж' }, { ru: 'Жизнь', uz: 'Hayot', char: 'Ж' }, { ru: 'Железо', uz: 'Temir', char: 'Ж' }, { ru: 'Женщина', uz: 'Ayol', char: 'Ж' },
+            { ru: 'Заяц', uz: 'Quyon', char: 'З' }, { ru: 'Звезда', uz: 'Yulduz', char: 'З' }, { ru: 'Земля', uz: 'Yer', char: 'З' }, { ru: 'Зима', uz: 'Qish', char: 'З' }, { ru: 'Зуб', uz: 'Tish', char: 'З' }, { ru: 'Зонт', uz: 'Soyabon', char: 'З' },
+            { ru: 'Игла', uz: 'Igna', char: 'И' }, { ru: 'Игра', uz: 'O‘yin', char: 'И' }, { ru: 'Имя', uz: 'Ism', char: 'И' }, { ru: 'Инженер', uz: 'Muhandis', char: 'И' }, { ru: 'Инструмент', uz: 'Asbob', char: 'И' },
+            { ru: 'Йогурт', uz: 'Yogurt', char: 'Й' }, { ru: 'Йод', uz: 'Yod eritmasi', char: 'Й' },
+            { ru: 'Кот', uz: 'Mushuk', char: 'К' }, { ru: 'Книга', uz: 'Kitob', char: 'К' }, { ru: 'Карандаш', uz: 'Qalam', char: 'К' }, { ru: 'Комната', uz: 'Xona', char: 'К' }, { ru: 'Корова', uz: 'Sigir', char: 'К' }, { ru: 'Компьютер', uz: 'Kompyuter', char: 'К' },
+            { ru: 'Лимон', uz: 'Limon', char: 'Л' }, { ru: 'Лес', uz: 'O‘rmon', char: 'Л' }, { ru: 'Луна', uz: 'Oy', char: 'Л' }, { ru: 'Лист', uz: 'Barg', char: 'Л' }, { ru: 'Лошадь', uz: 'Ot', char: 'Л' }, { ru: 'Ложка', uz: 'Qoshiq', char: 'Л' },
+            { ru: 'Медведь', uz: 'Ayiq', char: 'М' }, { ru: 'Мама', uz: 'Ona', char: 'М' }, { ru: 'Машина', uz: 'Mashina', char: 'М' }, { ru: 'Молоко', uz: 'Sut', char: 'М' }, { ru: 'Море', uz: 'Dengiz', char: 'М' }, { ru: 'Мыло', uz: 'Sovun', char: 'М' },
+            { ru: 'Ножницы', uz: 'Qaychi', char: 'Н' }, { ru: 'Нос', uz: 'Burun', char: 'Н' }, { ru: 'Ночь', uz: 'Tun', char: 'Н' }, { ru: 'Небо', uz: 'Osmon', char: 'Н' }, { ru: 'Нога', uz: 'Oyoq', char: 'Н' }, { ru: 'Номер', uz: 'Raqam', char: 'Н' },
+            { ru: 'Окно', uz: 'Deraza', char: 'О' }, { ru: 'Огонь', uz: 'Olov', char: 'О' }, { ru: 'Озеро', uz: 'Ko‘l', char: 'О' }, { ru: 'Осень', uz: 'Kuz', char: 'О' }, { ru: 'Остров', uz: 'Orol', char: 'О' }, { ru: 'Очки', uz: 'Ko‘zoynak', char: 'О' },
+            { ru: 'Птица', uz: 'Qush', char: 'П' }, { ru: 'Папа', uz: 'Dada', char: 'П' }, { ru: 'Письмо', uz: 'Xat', char: 'П' }, { ru: 'Поезд', uz: 'Poyezd', char: 'П' }, { ru: 'Поле', uz: 'Dala', char: 'П' }, { ru: 'Парк', uz: 'Bog‘', char: 'П' },
+            { ru: 'Рыба', uz: 'Baliq', char: 'Р' }, { ru: 'Рука', uz: 'Qo‘l', char: 'Р' }, { ru: 'Ручка', uz: 'Ruchka', char: 'Р' }, { ru: 'Река', uz: 'Daryo', char: 'Р' }, { ru: 'Роза', uz: 'Atirgul', char: 'Р' }, { ru: 'Работа', uz: 'Ish', char: 'Р' },
+            { ru: 'Солнце', uz: 'Quyosh', char: 'С' }, { ru: 'Стол', uz: 'Stol', char: 'С' }, { ru: 'Стул', uz: 'Stul', char: 'С' }, { ru: 'Семья', uz: 'Oila', char: 'С' }, { ru: 'Снег', uz: 'Qor', char: 'С' }, { ru: 'Собака', uz: 'It', char: 'С' },
+            { ru: 'Тигр', uz: 'Yo‘lbars', char: 'Т' }, { ru: 'Тетрадь', uz: 'Daftar', char: 'Т' }, { ru: 'Телефон', uz: 'Telefon', char: 'Т' }, { ru: 'Тарелка', uz: 'Tarelka', char: 'Т' }, { ru: 'Трава', uz: 'O‘t', char: 'Т' }, { ru: 'Торт', uz: 'Tort', char: 'Т' },
+            { ru: 'Утка', uz: 'O‘rdak', char: 'У' }, { ru: 'Ученик', uz: 'O‘quvchi', char: 'У' }, { ru: 'Учитель', uz: 'O‘qituvchi', char: 'У' }, { ru: 'Улица', uz: 'Ko‘cha', char: 'У' }, { ru: 'Утро', uz: 'Ertalab', char: 'У' }, { ru: 'Ухо', uz: 'Quloq', char: 'У' },
+            { ru: 'Флаг', uz: 'Bayroq', char: 'Ф' }, { ru: 'Фрукт', uz: 'Meva', char: 'Ф' }, { ru: 'Фонарь', uz: 'Fonar', char: 'Ф' }, { ru: 'Фото', uz: 'Surat', char: 'Ф' }, { ru: 'Футбол', uz: 'Futbol', char: 'Ф' },
+            { ru: 'Хлеб', uz: 'Non', char: 'Х' }, { ru: 'Холод', uz: 'Sovuq', char: 'Х' }, { ru: 'Художник', uz: 'Rassom', char: 'Х' }, { ru: 'Хвост', uz: 'Dum', char: 'Х' },
+            { ru: 'Цветок', uz: 'Gul', char: 'Ц' }, { ru: 'Царь', uz: 'Podsho', char: 'Ц' }, { ru: 'Цирк', uz: 'Sirk', char: 'Ц' }, { ru: 'Цена', uz: 'Narx', char: 'Ц' }, { ru: 'Цепь', uz: 'Zanjir', char: 'Ц' },
+            { ru: 'Часы', uz: 'Soat', char: 'Ч' }, { ru: 'Чай', uz: 'Choy', char: 'Ч' }, { ru: 'Человек', uz: 'Inson', char: 'Ч' }, { ru: 'Чашка', uz: 'Chashka', char: 'Ч' }, { ru: 'Число', uz: 'Son', char: 'Ч' },
+            { ru: 'Шапка', uz: 'Shapka', char: 'Ш' }, { ru: 'Школа', uz: 'Maktab', char: 'Ш' }, { ru: 'Шарф', uz: 'Sharf', char: 'Ш' }, { ru: 'Шкаф', uz: 'Shkaf', char: 'Ш' }, { ru: 'Шаг', uz: 'Qadam', char: 'Ш' },
+            { ru: 'Щётка', uz: 'Cho‘tka', char: 'Щ' }, { ru: 'Щит', uz: 'Qalqon', char: 'Щ' }, { ru: 'Щенок', uz: 'Kuchukcha', char: 'Щ' }, { ru: 'Щука', uz: 'Cho‘rtanbaliq', char: 'Щ' },
+            { ru: 'Экран', uz: 'Ekran', char: 'Э' }, { ru: 'Этаж', uz: 'Qavat', char: 'Э' }, { ru: 'Экскурсия', uz: 'Sayohat', char: 'Э' }, { ru: 'Энергия', uz: 'Energiya', char: 'Э' },
+            { ru: 'Юбка', uz: 'Yubka', char: 'Ю' }, { ru: 'Юг', uz: 'Janub', char: 'Ю' }, { ru: 'Юмор', uz: 'Hazil', char: 'Ю' }, { ru: 'Юноша', uz: 'O‘smir yigit', char: 'Ю' },
+            { ru: 'Яблоко', uz: 'Olma', char: 'Я' }, { ru: 'Ягода', uz: 'Rezavor meva', char: 'Я' }, { ru: 'Язык', uz: 'Til', char: 'Я' }, { ru: 'Яйцо', uz: 'Tuxum', char: 'Я' }, { ru: 'Якорь', uz: 'Langar', char: 'Я' }
+        ];
+
         const maleSentences = [
             { ru: "Этот большой стол стоит в комнате.", uz: "Bu katta stol xonada turibdi." },
             { ru: "Мой папа работает инженером на заводе.", uz: "Mening dadam zavodda muhandis bo'lib ishlaydi." },
@@ -408,117 +733,6 @@ app_html = """
             { ru: "Глубокое озеро славится чистейшей водой.", uz: "Chuqur ko'l o'zining top-toza suvi bilan mashhur." }
         ];
 
-        function renderGenderSentences() {
-            const renderGroup = (arr, elementId, colorClass, btnBg) => {
-                const el = document.getElementById(elementId);
-                el.innerHTML = '';
-                arr.forEach((item, idx) => {
-                    const row = document.createElement('div');
-                    row.className = "p-2.5 bg-slate-50 hover:bg-slate-100 rounded-xl border border-slate-100 flex flex-col justify-between transition";
-                    row.innerHTML = `
-                        <div class="flex justify-between items-start gap-2 mb-1">
-                            <p class="font-extrabold text-xs text-slate-800 leading-snug">
-                                <span class="font-black ${colorClass}">#${idx + 1}</span> ${item.ru}
-                            </p>
-                            <button onclick="playSound('${item.ru.replace(/'/g, "\\'")}')" class="shrink-0 w-6 h-6 rounded-lg ${btnBg} flex items-center justify-center text-[10px] text-white shadow-sm hover:opacity-90">
-                                <i class="fas fa-volume-high"></i>
-                            </button>
-                        </div>
-                        <p class="text-[11px] font-semibold text-slate-500">${item.uz}</p>
-                    `;
-                    el.appendChild(row);
-                });
-            };
-
-            renderGroup(maleSentences, 'male-sentences', 'text-sky-600', 'bg-sky-500');
-            renderGroup(femaleSentences, 'female-sentences', 'text-rose-600', 'bg-rose-500');
-            renderGroup(neuterSentences, 'neuter-sentences', 'text-amber-600', 'bg-amber-500');
-        }
-
-        const lettersData = [
-            { char: 'А', small: 'а', type: 'unli', word: 'Арбуз', uz: 'Tarvuz', img: 'https://images.unsplash.com/photo-1587049352846-4a222e784d38?auto=format&fit=crop&w=400&q=80' },
-            { char: 'Б', small: 'б', type: 'undosh', word: 'Бабочка', uz: 'Kapalak', img: 'https://images.unsplash.com/photo-1559253664-ca249d4608c6?auto=format&fit=crop&w=400&q=80' },
-            { char: 'В', small: 'в', type: 'undosh', word: 'Волк', uz: 'Bo‘ri', img: 'https://images.unsplash.com/photo-1564466809058-bf4114d55352?auto=format&fit=crop&w=400&q=80' },
-            { char: 'Г', small: 'г', type: 'undosh', word: 'Гриб', uz: 'Qo‘ziqorin', img: 'https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=400&q=80' },
-            { char: 'Д', small: 'д', type: 'undosh', word: 'Дом', uz: 'Uy', img: 'https://images.unsplash.com/photo-1518780664697-55e3ad937233?auto=format&fit=crop&w=400&q=80' },
-            { char: 'Е', small: 'е', type: 'unli', word: 'Ель', uz: 'Archa', img: 'https://images.unsplash.com/photo-1512496015851-a90fb38ba796?auto=format&fit=crop&w=400&q=80' },
-            { char: 'Ё', small: 'ё', type: 'unli', word: 'Ёж', uz: 'Tipratikan', img: 'https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=400&q=80' },
-            { char: 'Ж', small: 'ж', type: 'undosh', word: 'Жираф', uz: 'Jirafa', img: 'https://images.unsplash.com/photo-1538099130811-745e64318258?auto=format&fit=crop&w=400&q=80' },
-            { char: 'З', small: 'з', type: 'undosh', word: 'Заяц', uz: 'Quyon', img: 'https://images.unsplash.com/photo-1585110396000-c9ffd4e4b308?auto=format&fit=crop&w=400&q=80' },
-            { char: 'И', small: 'и', type: 'unli', word: 'Игла', uz: 'Igna', img: 'https://images.unsplash.com/photo-1584824486509-112e4181ff6b?auto=format&fit=crop&w=400&q=80' },
-            { char: 'Й', small: 'й', type: 'undosh', word: 'Йогурт', uz: 'Yogurt', img: 'https://images.unsplash.com/photo-1488477181946-6428a0291777?auto=format&fit=crop&w=400&q=80' },
-            { char: 'К', small: 'к', type: 'undosh', word: 'Кот', uz: 'Mushuk', img: 'https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&w=400&q=80' },
-            { char: 'Л', small: 'л', type: 'undosh', word: 'Лимон', uz: 'Limon', img: 'https://images.unsplash.com/photo-1533038590840-1cde6e668a91?auto=format&fit=crop&w=400&q=80' },
-            { char: 'М', small: 'м', type: 'undosh', word: 'Медведь', uz: 'Ayiq', img: 'https://images.unsplash.com/photo-1530595467537-0b5996c41f2d?auto=format&fit=crop&w=400&q=80' },
-            { char: 'Н', small: 'н', type: 'undosh', word: 'Ножницы', uz: 'Qaychi', img: 'https://images.unsplash.com/photo-1503792501406-2c40da09e1e2?auto=format&fit=crop&w=400&q=80' },
-            { char: 'О', small: 'о', type: 'unli', word: 'Окно', uz: 'Deraza', img: 'https://images.unsplash.com/photo-1509644851169-2acc08aa25b5?auto=format&fit=crop&w=400&q=80' },
-            { char: 'П', small: 'п', type: 'undosh', word: 'Птица', uz: 'Qush', img: 'https://images.unsplash.com/photo-1444464666168-49d633b86797?auto=format&fit=crop&w=400&q=80' },
-            { char: 'Р', small: 'р', type: 'undosh', word: 'Рыба', uz: 'Baliq', img: 'https://images.unsplash.com/photo-1522069169874-c58ec4b76be5?auto=format&fit=crop&w=400&q=80' },
-            { char: 'С', small: 'с', type: 'undosh', word: 'Солнце', uz: 'Quyosh', img: 'https://images.unsplash.com/photo-1532767153582-b1a0e5145009?auto=format&fit=crop&w=400&q=80' },
-            { char: 'Т', small: 'т', type: 'undosh', word: 'Тигр', uz: 'Yo‘lbars', img: 'https://images.unsplash.com/photo-1561731216-c3a4d99437d5?auto=format&fit=crop&w=400&q=80' },
-            { char: 'У', small: 'у', type: 'unli', word: 'Утка', uz: 'O‘rdak', img: 'https://images.unsplash.com/photo-1555854877-bab0e564b8d5?auto=format&fit=crop&w=400&q=80' },
-            { char: 'Ф', small: 'ф', type: 'undosh', word: 'Флаг', uz: 'Bayroq', img: 'https://images.unsplash.com/photo-1508873696983-2df57046475a?auto=format&fit=crop&w=400&q=80' },
-            { char: 'Х', small: 'х', type: 'undosh', word: 'Хлеб', uz: 'Non', img: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=400&q=80' },
-            { char: 'Ц', small: 'ц', type: 'undosh', word: 'Цветок', uz: 'Gul', img: 'https://images.unsplash.com/photo-1490750967868-88aa4486c946?auto=format&fit=crop&w=400&q=80' },
-            { char: 'Ч', small: 'ч', type: 'undosh', word: 'Часы', uz: 'Soat', img: 'https://images.unsplash.com/photo-1524805444758-089113d48a6d?auto=format&fit=crop&w=400&q=80' },
-            { char: 'Ш', small: 'ш', type: 'undosh', word: 'Шапка', uz: 'Shapka', img: 'https://images.unsplash.com/photo-1576871337622-98d48d1cf531?auto=format&fit=crop&w=400&q=80' },
-            { char: 'Щ', small: 'щ', type: 'undosh', word: 'Щётка', uz: 'Cho‘tka', img: 'https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?auto=format&fit=crop&w=400&q=80' },
-            { char: 'Ъ', small: 'ъ', type: 'belgi', word: 'Подъезд', uz: 'Podyezd', img: 'https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=400&q=80' },
-            { char: 'Ы', small: 'ы', type: 'unli', word: 'Сыр', uz: 'Pishloq', img: 'https://images.unsplash.com/photo-1486297678162-eb2a19b0a32d?auto=format&fit=crop&w=400&q=80' },
-            { char: 'Ь', small: 'ь', type: 'belgi', word: 'Конь', uz: 'Ot (hayvon)', img: 'https://images.unsplash.com/photo-1553284965-83fd3e82fa5a?auto=format&fit=crop&w=400&q=80' },
-            { char: 'Э', small: 'э', type: 'unli', word: 'Экран', uz: 'Ekran', img: 'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=400&q=80' },
-            { char: 'Ю', small: 'ю', type: 'unli', word: 'Юбка', uz: 'Yubka', img: 'https://images.unsplash.com/photo-1583496661160-fb5886a0aaaa?auto=format&fit=crop&w=400&q=80' },
-            { char: 'Я', small: 'я', type: 'unli', word: 'Яблоко', uz: 'Olma', img: 'https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?auto=format&fit=crop&w=400&q=80' }
-        ];
-
-        const quizWords200 = [
-            { ru: 'Арбуз', uz: 'Tarvuz', char: 'А' }, { ru: 'Ананас', uz: 'Ananas', char: 'А' }, { ru: 'Автобус', uz: 'Avtobus', char: 'А' }, { ru: 'Апельсин', uz: 'Apelsin', char: 'А' }, { ru: 'Альбом', uz: 'Albom', char: 'А' }, { ru: 'Акула', uz: 'Akula', char: 'А' },
-            { ru: 'Бабочка', uz: 'Kapalak', char: 'Б' }, { ru: 'Банан', uz: 'Banan', char: 'Б' }, { ru: 'Брат', uz: 'Aka / Uka', char: 'Б' }, { ru: 'Бумага', uz: 'Qog‘oz', char: 'Б' }, { ru: 'Берёза', uz: 'Qayin daraxti', char: 'Б' }, { ru: 'Барабан', uz: 'Nog‘ora', char: 'Б' },
-            { ru: 'Волк', uz: 'Bo‘ri', char: 'В' }, { ru: 'Вода', uz: 'Suv', char: 'В' }, { ru: 'Воздух', uz: 'Havo', char: 'В' }, { ru: 'Ветер', uz: 'Shamol', char: 'В' }, { ru: 'Время', uz: 'Vaqt', char: 'В' }, { ru: 'Врач', uz: 'Shifokor', char: 'В' },
-            { ru: 'Гриб', uz: 'Qo‘ziqorin', char: 'Г' }, { ru: 'Город', uz: 'Shahar', char: 'Г' }, { ru: 'Глаз', uz: 'Ko‘z', char: 'Г' }, { ru: 'Груша', uz: 'Nok', char: 'Г' }, { ru: 'Гора', uz: 'Tog‘', char: 'Г' }, { ru: 'Голова', uz: 'Bosh', char: 'Г' },
-            { ru: 'Дом', uz: 'Uy', char: 'Д' }, { ru: 'Дверь', uz: 'Eshik', char: 'Д' }, { ru: 'Друг', uz: 'Do‘st', char: 'Д' }, { ru: 'Дерево', uz: 'Daraxt', char: 'Д' }, { ru: 'Дождь', uz: 'Yomg‘ir', char: 'Д' }, { ru: 'Дорога', uz: 'Yo‘l', char: 'Д' },
-            { ru: 'Ель', uz: 'Archa', char: 'Е' }, { ru: 'Енот', uz: 'Yenot', char: 'Е' }, { ru: 'Еда', uz: 'Ovqat', char: 'Е' }, { ru: 'Ежевика', uz: 'Maymunjon', char: 'Е' },
-            { ru: 'Ёж', uz: 'Tipratikan', char: 'Ё' }, { ru: 'Ёлка', uz: 'Yangi yil archasi', char: 'Ё' }, { ru: 'Ёрш', uz: 'Baliqcha', char: 'Ё' },
-            { ru: 'Жираф', uz: 'Jirafa', char: 'Ж' }, { ru: 'Жук', uz: 'Qo‘ng‘iz', char: 'Ж' }, { ru: 'Жизнь', uz: 'Hayot', char: 'Ж' }, { ru: 'Железо', uz: 'Temir', char: 'Ж' }, { ru: 'Женщина', uz: 'Ayol', char: 'Ж' },
-            { ru: 'Заяц', uz: 'Quyon', char: 'З' }, { ru: 'Звезда', uz: 'Yulduz', char: 'З' }, { ru: 'Земля', uz: 'Yer', char: 'З' }, { ru: 'Зима', uz: 'Qish', char: 'З' }, { ru: 'Зуб', uz: 'Tish', char: 'З' }, { ru: 'Зонт', uz: 'Soyabon', char: 'З' },
-            { ru: 'Игла', uz: 'Igna', char: 'И' }, { ru: 'Игра', uz: 'O‘yin', char: 'И' }, { ru: 'Имя', uz: 'Ism', char: 'И' }, { ru: 'Инженер', uz: 'Muhandis', char: 'И' }, { ru: 'Инструмент', uz: 'Asbob', char: 'И' },
-            { ru: 'Йогурт', uz: 'Yogurt', char: 'Й' }, { ru: 'Йод', uz: 'Yod eritmasi', char: 'Й' },
-            { ru: 'Кот', uz: 'Mushuk', char: 'К' }, { ru: 'Книга', uz: 'Kitob', char: 'К' }, { ru: 'Карандаш', uz: 'Qalam', char: 'К' }, { ru: 'Комната', uz: 'Xona', char: 'К' }, { ru: 'Корова', uz: 'Sigir', char: 'К' }, { ru: 'Компьютер', uz: 'Kompyuter', char: 'К' },
-            { ru: 'Лимон', uz: 'Limon', char: 'Л' }, { ru: 'Лес', uz: 'O‘rmon', char: 'Л' }, { ru: 'Луна', uz: 'Oy', char: 'Л' }, { ru: 'Лист', uz: 'Barg', char: 'Л' }, { ru: 'Лошадь', uz: 'Ot', char: 'Л' }, { ru: 'Ложка', uz: 'Qoshiq', char: 'Л' },
-            { ru: 'Медведь', uz: 'Ayiq', char: 'М' }, { ru: 'Мама', uz: 'Ona', char: 'М' }, { ru: 'Машина', uz: 'Mashina', char: 'М' }, { ru: 'Молоко', uz: 'Sut', char: 'М' }, { ru: 'Море', uz: 'Dengiz', char: 'М' }, { ru: 'Мыло', uz: 'Sovun', char: 'М' },
-            { ru: 'Ножницы', uz: 'Qaychi', char: 'Н' }, { ru: 'Нос', uz: 'Burun', char: 'Н' }, { ru: 'Ночь', uz: 'Tun', char: 'Н' }, { ru: 'Небо', uz: 'Osmon', char: 'Н' }, { ru: 'Нога', uz: 'Oyoq', char: 'Н' }, { ru: 'Номер', uz: 'Raqam', char: 'Н' },
-            { ru: 'Окно', uz: 'Deraza', char: 'О' }, { ru: 'Огонь', uz: 'Olov', char: 'О' }, { ru: 'Озеро', uz: 'Ko‘l', char: 'О' }, { ru: 'Осень', uz: 'Kuz', char: 'О' }, { ru: 'Остров', uz: 'Orol', char: 'О' }, { ru: 'Очки', uz: 'Ko‘zoynak', char: 'О' },
-            { ru: 'Птица', uz: 'Qush', char: 'П' }, { ru: 'Папа', uz: 'Dada', char: 'П' }, { ru: 'Письмо', uz: 'Xat', char: 'П' }, { ru: 'Поезд', uz: 'Poyezd', char: 'П' }, { ru: 'Поле', uz: 'Dala', char: 'П' }, { ru: 'Парк', uz: 'Bog‘', char: 'П' },
-            { ru: 'Рыба', uz: 'Baliq', char: 'Р' }, { ru: 'Рука', uz: 'Qo‘l', char: 'Р' }, { ru: 'Ручка', uz: 'Ruchka', char: 'Р' }, { ru: 'Река', uz: 'Daryo', char: 'Р' }, { ru: 'Роза', uz: 'Atirgul', char: 'Р' }, { ru: 'Работа', uz: 'Ish', char: 'Р' },
-            { ru: 'Солнце', uz: 'Quyosh', char: 'С' }, { ru: 'Стол', uz: 'Stol', char: 'С' }, { ru: 'Стул', uz: 'Stul', char: 'С' }, { ru: 'Семья', uz: 'Oila', char: 'С' }, { ru: 'Снег', uz: 'Qor', char: 'С' }, { ru: 'Собака', uz: 'It', char: 'С' },
-            { ru: 'Тигр', uz: 'Yo‘lbars', char: 'Т' }, { ru: 'Тетрадь', uz: 'Daftar', char: 'Т' }, { ru: 'Телефон', uz: 'Telefon', char: 'Т' }, { ru: 'Тарелка', uz: 'Tarelka', char: 'Т' }, { ru: 'Трава', uz: 'O‘t', char: 'Т' }, { ru: 'Торт', uz: 'Tort', char: 'Т' },
-            { ru: 'Утка', uz: 'O‘rdak', char: 'У' }, { ru: 'Ученик', uz: 'O‘quvchi', char: 'У' }, { ru: 'Учитель', uz: 'O‘qituvchi', char: 'У' }, { ru: 'Улица', uz: 'Ko‘cha', char: 'У' }, { ru: 'Утро', uz: 'Ertalab', char: 'У' }, { ru: 'Ухо', uz: 'Quloq', char: 'У' },
-            { ru: 'Флаг', uz: 'Bayroq', char: 'Ф' }, { ru: 'Фрукт', uz: 'Meva', char: 'Ф' }, { ru: 'Фонарь', uz: 'Fonar', char: 'Ф' }, { ru: 'Фото', uz: 'Surat', char: 'Ф' }, { ru: 'Футбол', uz: 'Futbol', char: 'Ф' },
-            { ru: 'Хлеб', uz: 'Non', char: 'Х' }, { ru: 'Холод', uz: 'Sovuq', char: 'Х' }, { ru: 'Художник', uz: 'Rassom', char: 'Х' }, { ru: 'Хвост', uz: 'Dum', char: 'Х' },
-            { ru: 'Цветок', uz: 'Gul', char: 'Ц' }, { ru: 'Царь', uz: 'Podsho', char: 'Ц' }, { ru: 'Цирк', uz: 'Sirk', char: 'Ц' }, { ru: 'Цена', uz: 'Narx', char: 'Ц' }, { ru: 'Цепь', uz: 'Zanjir', char: 'Ц' },
-            { ru: 'Часы', uz: 'Soat', char: 'Ч' }, { ru: 'Чай', uz: 'Choy', char: 'Ч' }, { ru: 'Человек', uz: 'Inson', char: 'Ч' }, { ru: 'Чашка', uz: 'Chashka', char: 'Ч' }, { ru: 'Число', uz: 'Son', char: 'Ч' },
-            { ru: 'Шапка', uz: 'Shapka', char: 'Ш' }, { ru: 'Школа', uz: 'Maktab', char: 'Ш' }, { ru: 'Шарф', uz: 'Sharf', char: 'Ш' }, { ru: 'Шкаф', uz: 'Shkaf', char: 'Ш' }, { ru: 'Шаг', uz: 'Qadam', char: 'Ш' },
-            { ru: 'Щётка', uz: 'Cho‘tka', char: 'Щ' }, { ru: 'Щит', uz: 'Qalqon', char: 'Щ' }, { ru: 'Щенок', uz: 'Kuchukcha', char: 'Щ' }, { ru: 'Щука', uz: 'Cho‘rtanbaliq', char: 'Щ' },
-            { ru: 'Экран', uz: 'Ekran', char: 'Э' }, { ru: 'Этаж', uz: 'Qavat', char: 'Э' }, { ru: 'Экскурсия', uz: 'Sayohat', char: 'Э' }, { ru: 'Энергия', uz: 'Energiya', char: 'Э' },
-            { ru: 'Юбка', uz: 'Yubka', char: 'Ю' }, { ru: 'Юг', uz: 'Janub', char: 'Ю' }, { ru: 'Юмор', uz: 'Hazil', char: 'Ю' }, { ru: 'Юноша', uz: 'O‘smir yigit', char: 'Ю' },
-            { ru: 'Яблоко', uz: 'Olma', char: 'Я' }, { ru: 'Ягода', uz: 'Rezavor meva', char: 'Я' }, { ru: 'Язык', uz: 'Til', char: 'Я' }, { ru: 'Яйцо', uz: 'Tuxum', char: 'Я' }, { ru: 'Якорь', uz: 'Langar', char: 'Я' },
-            { ru: 'Сыр', uz: 'Pishloq', char: 'С' }, { ru: 'Дым', uz: 'Tutun', char: 'Д' }, { ru: 'Бык', uz: 'Ho‘kiz', char: 'Б' }, { ru: 'Мышь', uz: 'Sichqon', char: 'М' }, { ru: 'Рысь', uz: 'Silovsin', char: 'Р' },
-            { ru: 'Картина', uz: 'Rasm', char: 'К' }, { ru: 'Зеркало', uz: 'Oyna', char: 'З' }, { ru: 'Подушка', uz: 'Yostiq', char: 'П' }, { ru: 'Одеяло', uz: 'Ko‘rpa', char: 'О' },
-            { ru: 'Платье', uz: 'Ko‘ylak', char: 'П' }, { ru: 'Пальто', uz: 'Palto', char: 'П' }, { ru: 'Ботинки', uz: 'Botinkalar', char: 'Б' }, { ru: 'Носки', uz: 'Paypoqlar', char: 'Н' },
-            { ru: 'Вилка', uz: 'Sanchqi', char: 'В' }, { ru: 'Нож', uz: 'Pichoq', char: 'Н' }, { ru: 'Чайник', uz: 'Choynak', char: 'Ч' }, { ru: 'Сковорода', uz: 'Tova', char: 'С' },
-            { ru: 'Кастрюля', uz: 'Qozon', char: 'К' }, { ru: 'Сахар', uz: 'Shakar', char: 'С' }, { ru: 'Соль', uz: 'Tuz', char: 'С' }, { ru: 'Масло', uz: 'Yog‘', char: 'М' },
-            { ru: 'Мясо', uz: 'Go‘sht', char: 'М' }, { ru: 'Суп', uz: 'Sho‘rva', char: 'С' }, { ru: 'Каша', uz: 'Bo‘tqa', char: 'К' }, { ru: 'Салат', uz: 'Salat', char: 'С' },
-            { ru: 'Морковь', uz: 'Sabzi', char: 'М' }, { ru: 'Картофель', uz: 'Kartoshka', char: 'К' }, { ru: 'Лук', uz: 'Piyoz', char: 'Л' }, { ru: 'Огурец', uz: 'Bodring', char: 'О' },
-            { ru: 'Помидор', uz: 'Pomidor', char: 'П' }, { ru: 'Капуста', uz: 'Karam', char: 'К' }, { ru: 'Свекла', uz: 'Lavlagi', char: 'С' }, { ru: 'Чеснок', uz: 'Sarimsoq', char: 'Ч' },
-            { ru: 'Виноград', uz: 'Uzum', char: 'В' }, { ru: 'Персик', uz: 'Shaftoli', char: 'П' }, { ru: 'Слива', uz: 'Olxo‘ri', char: 'С' }, { ru: 'Вишня', uz: 'Olcha', char: 'В' },
-            { ru: 'Клубника', uz: 'Qulupnay', char: 'К' }, { ru: 'Малина', uz: 'Malina', char: 'М' }, { ru: 'Орех', uz: 'Yong‘oq', char: 'О' }, { ru: 'Мёд', uz: 'Asal', char: 'М' },
-            { ru: 'Автомобиль', uz: 'Avtomobil', char: 'А' }, { ru: 'Самолёт', uz: 'Samolyot', char: 'С' }, { ru: 'Вертолёт', uz: 'Vertolyot', char: 'В' }, { ru: 'Корабль', uz: 'Kema', char: 'К' },
-            { ru: 'Лодка', uz: 'Qayiq', char: 'Л' }, { ru: 'Велосипед', uz: 'Velosiped', char: 'В' }, { ru: 'Метро', uz: 'Metro', char: 'М' }, { ru: 'Трамвай', uz: 'Tramvay', char: 'Т' },
-            { ru: 'Вокзал', uz: 'Vokzal', char: 'В' }, { ru: 'Аэропорт', uz: 'Aeroport', char: 'А' }, { ru: 'Мост', uz: 'Ko‘prik', char: 'М' }, { ru: 'Площадь', uz: 'Maydon', char: 'П' },
-            { ru: 'Больница', uz: 'Shifoxona', char: 'Б' }, { ru: 'Аптека', uz: 'Dorixona', char: 'А' }, { ru: 'Магазин', uz: 'Do‘kon', char: 'М' }, { ru: 'Рынок', uz: 'Bozor', char: 'Р' },
-            { ru: 'Музей', uz: 'Muzey', char: 'М' }, { ru: 'Театр', uz: 'Teatr', char: 'Т' }, { ru: 'Кино', uz: 'Kino', char: 'К' }, { ru: 'Стадион', uz: 'Stadion', char: 'С' }
-        ];
-
         const texts50 = [
             { id: 1, ru: "Здравствуйте! Меня зовут Азиз. Я учу русский язык.", uz: "Assalomu alaykum! Mening ismim Aziz. Men rus tilini o'rganyapman." },
             { id: 2, ru: "Это моя семья. Папа, мама и я живём дружно.", uz: "Bu mening oilam. Dadam, onam va men ahil yashaymiz." },
@@ -572,6 +786,33 @@ app_html = """
             { id: 50, ru: "Мы учимся каждый день и узнаём много нового!", uz: "Biz har kuni o'qiymiz va juda ko'p yangi narsalarni bilib olamiz!" }
         ];
 
+        function renderGenderSentences() {
+            const renderGroup = (arr, elementId, colorClass, btnBg) => {
+                const el = document.getElementById(elementId);
+                el.innerHTML = '';
+                arr.forEach((item, idx) => {
+                    const row = document.createElement('div');
+                    row.className = "p-2.5 bg-slate-50 hover:bg-slate-100 rounded-xl border border-slate-100 flex flex-col justify-between transition";
+                    row.innerHTML = `
+                        <div class="flex justify-between items-start gap-2 mb-1">
+                            <p class="font-extrabold text-xs text-slate-800 leading-snug">
+                                <span class="font-black ${colorClass}">#${idx + 1}</span> ${item.ru}
+                            </p>
+                            <button onclick="playSound('${item.ru.replace(/'/g, "\\'")}')" class="shrink-0 w-6 h-6 rounded-lg ${btnBg} flex items-center justify-center text-[10px] text-white shadow-sm hover:opacity-90">
+                                <i class="fas fa-volume-high"></i>
+                            </button>
+                        </div>
+                        <p class="text-[11px] font-semibold text-slate-500">${item.uz}</p>
+                    `;
+                    el.appendChild(row);
+                });
+            };
+
+            renderGroup(maleSentences, 'male-sentences', 'text-sky-600', 'bg-sky-500');
+            renderGroup(femaleSentences, 'female-sentences', 'text-rose-600', 'bg-rose-500');
+            renderGroup(neuterSentences, 'neuter-sentences', 'text-amber-600', 'bg-amber-500');
+        }
+
         function renderAlphabet() {
             const grid = document.getElementById('alphabet-grid');
             grid.innerHTML = '';
@@ -604,14 +845,16 @@ app_html = """
         }
 
         function switchTab(tabId) {
-            ['alphabet', 'write', 'gender', 'texts', 'quiz'].forEach(t => {
+            ['alphabet', 'write', 'gender', 'texts', 'quiz', 'picquiz'].forEach(t => {
                 document.getElementById(`section-${t}`).classList.add('hidden');
                 document.getElementById(`tab-${t}`).className = "px-3.5 py-2 rounded-xl text-xs sm:text-sm font-extrabold bg-white text-slate-600 hover:bg-slate-100";
             });
             document.getElementById(`section-${tabId}`).classList.remove('hidden');
-            const color = tabId === 'alphabet' ? 'bg-emerald-500' : (tabId === 'write' ? 'bg-amber-500' : (tabId === 'gender' ? 'bg-indigo-500' : (tabId === 'texts' ? 'bg-sky-500' : 'bg-rose-500')));
+            const color = tabId === 'alphabet' ? 'bg-emerald-500' : (tabId === 'write' ? 'bg-amber-500' : (tabId === 'gender' ? 'bg-indigo-500' : (tabId === 'texts' ? 'bg-sky-500' : (tabId === 'quiz' ? 'bg-rose-500' : 'bg-purple-600'))));
             document.getElementById(`tab-${tabId}`).className = `px-3.5 py-2 rounded-xl text-xs sm:text-sm font-extrabold ${color} text-white shadow-md`;
+            
             if (tabId === 'quiz' && quizSessionQuestions.length === 0) startQuizSession();
+            if (tabId === 'picquiz' && picQuestions.length === 0) initPicVariantQuestions();
         }
 
         // CANVAS
@@ -693,7 +936,7 @@ app_html = """
             }
         }
 
-        // VIKTORINA
+        // ESKI HARF VIKTORINASI
         let quizSessionQuestions = [], currQIdx = 0, quizScore = 0, correctCount = 0, isAns = false;
         function startQuizSession() {
             quizSessionQuestions = [...quizWords200].sort(() => 0.5 - Math.random()).slice(0, 50);
@@ -781,5 +1024,5 @@ app_html = """
 </html>
 """
 
-# 4. Saytni butun ekran bo'ylab chiqarish
-components.html(app_html, height=1150, scrolling=True)
+# 4. Saytni chiqarish
+components.html(app_html, height=1250, scrolling=True)
