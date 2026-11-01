@@ -35,7 +35,7 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# 3. Rasmli Test (50 ta savol, 2 variant) qo'shilgan veb-kod
+# 3. Harflarni qo'shib o'qish menyusi qo'shilgan veb-kod
 app_html = """
 <!DOCTYPE html>
 <html lang="uz">
@@ -79,22 +79,25 @@ app_html = """
         </div>
 
         <nav class="flex flex-wrap items-center gap-2">
-            <button onclick="switchTab('alphabet')" id="tab-alphabet" class="px-3.5 py-2 rounded-xl text-xs sm:text-sm font-extrabold bg-emerald-500 text-white shadow-md">
+            <button onclick="switchTab('alphabet')" id="tab-alphabet" class="px-3 py-2 rounded-xl text-xs sm:text-sm font-extrabold bg-emerald-500 text-white shadow-md">
                 <i class="fas fa-font"></i> Alifbo
             </button>
-            <button onclick="switchTab('write')" id="tab-write" class="px-3.5 py-2 rounded-xl text-xs sm:text-sm font-extrabold bg-white text-slate-600 hover:bg-slate-100">
+            <button onclick="switchTab('write')" id="tab-write" class="px-3 py-2 rounded-xl text-xs sm:text-sm font-extrabold bg-white text-slate-600 hover:bg-slate-100">
                 <i class="fas fa-pen-nib text-amber-500"></i> Yozma Harflar
             </button>
-            <button onclick="switchTab('gender')" id="tab-gender" class="px-3.5 py-2 rounded-xl text-xs sm:text-sm font-extrabold bg-white text-slate-600 hover:bg-slate-100">
+            <button onclick="switchTab('syllables')" id="tab-syllables" class="px-3 py-2 rounded-xl text-xs sm:text-sm font-extrabold bg-white text-slate-600 hover:bg-slate-100">
+                <i class="fas fa-book-open-reader text-teal-600"></i> Harflarni Qo'shib O'qish
+            </button>
+            <button onclick="switchTab('gender')" id="tab-gender" class="px-3 py-2 rounded-xl text-xs sm:text-sm font-extrabold bg-white text-slate-600 hover:bg-slate-100">
                 <i class="fas fa-venus-mars text-indigo-500"></i> Rodlar va 60 Gap
             </button>
-            <button onclick="switchTab('texts')" id="tab-texts" class="px-3.5 py-2 rounded-xl text-xs sm:text-sm font-extrabold bg-white text-slate-600 hover:bg-slate-100">
+            <button onclick="switchTab('texts')" id="tab-texts" class="px-3 py-2 rounded-xl text-xs sm:text-sm font-extrabold bg-white text-slate-600 hover:bg-slate-100">
                 <i class="fas fa-book-reader text-sky-500"></i> 50 Matn
             </button>
-            <button onclick="switchTab('quiz')" id="tab-quiz" class="px-3.5 py-2 rounded-xl text-xs sm:text-sm font-extrabold bg-white text-slate-600 hover:bg-slate-100">
+            <button onclick="switchTab('quiz')" id="tab-quiz" class="px-3 py-2 rounded-xl text-xs sm:text-sm font-extrabold bg-white text-slate-600 hover:bg-slate-100">
                 <i class="fas fa-gamepad text-rose-500"></i> Viktorina (50 Test)
             </button>
-            <button onclick="switchTab('picquiz')" id="tab-picquiz" class="px-3.5 py-2 rounded-xl text-xs sm:text-sm font-extrabold bg-white text-slate-600 hover:bg-slate-100">
+            <button onclick="switchTab('picquiz')" id="tab-picquiz" class="px-3 py-2 rounded-xl text-xs sm:text-sm font-extrabold bg-white text-slate-600 hover:bg-slate-100">
                 <i class="fas fa-images text-purple-600"></i> Rasmli Test (50 ta)
             </button>
         </nav>
@@ -169,7 +172,52 @@ app_html = """
             </div>
         </section>
 
-        <!-- 3. RODLAR -->
+        <!-- 3. YANGI BO'LIM: HARFLARNI QO'SHIB O'QISH (ЧТЕНИЕ ПО СЛОГАМ) -->
+        <section id="section-syllables" class="hidden space-y-6">
+            <div class="bg-white/90 p-5 rounded-2xl border-2 border-teal-200 shadow-sm flex flex-wrap justify-between items-center gap-3">
+                <div>
+                    <h2 class="text-xl font-black text-slate-800">📖 Harflarni Qo'shib O'qishni O'rganish (Чтение по слогам)</h2>
+                    <p class="text-xs text-slate-600 mt-1">Harflarni bir-biriga qo'shib, bo'g'inlab o'qishni oson va tushunarli tarzda o'rganing. Tinglash uchun ustiga bosing!</p>
+                </div>
+                <div class="flex flex-wrap gap-2">
+                    <button onclick="filterSyllableTab('level1')" id="btn-syl-1" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-teal-600 text-white shadow">
+                        1-bosqich: Bo'g'inlar (Слоги)
+                    </button>
+                    <button onclick="filterSyllableTab('level2')" id="btn-syl-2" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-100 text-slate-700 hover:bg-slate-200">
+                        2-bosqich: Qisqa so'zlar (2-3 harf)
+                    </button>
+                    <button onclick="filterSyllableTab('level3')" id="btn-syl-3" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-100 text-slate-700 hover:bg-slate-200">
+                        3-bosqich: Bo'g'inli so'zlar
+                    </button>
+                </div>
+            </div>
+
+            <!-- 1-BOSQICH: BO'G'INLAR (SLOGI) -->
+            <div id="syl-level1-box" class="space-y-4">
+                <div class="bg-teal-50/80 p-4 rounded-2xl border border-teal-200 text-xs text-teal-900 font-bold">
+                    💡 Qoida: Undosh harfga unli harf qo'shilganda bo'g'in hosil bo'ladi. Harflarni ohangini uzmasdan bir-biriga ulab ayting: M + A = MA.
+                </div>
+                <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-3" id="syl-grid-level1"></div>
+            </div>
+
+            <!-- 2-BOSQICH: SODDA QISQA SO'ZLAR -->
+            <div id="syl-level2-box" class="hidden space-y-4">
+                <div class="bg-sky-50/80 p-4 rounded-2xl border border-sky-200 text-xs text-sky-900 font-bold">
+                    💡 Qoida: Bir yoki ikki oddiy bo'g'indan tashkil topgan 2, 3 va 4 harfli eng sodda ruscha so'zlar:
+                </div>
+                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3" id="syl-grid-level2"></div>
+            </div>
+
+            <!-- 3-BOSQICH: BO'G'INLI KO'P HARFLI SO'ZLAR -->
+            <div id="syl-level3-box" class="hidden space-y-4">
+                <div class="bg-amber-50/80 p-4 rounded-2xl border border-amber-200 text-xs text-amber-900 font-bold">
+                    💡 Qoida: Chiziqcha (-) orqali bo'lingan bo'g'inlarni alohida-alohida o'qib, so'ngra birgalikda to'liq so'z qilib talaffuz qiling:
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3.5" id="syl-grid-level3"></div>
+            </div>
+        </section>
+
+        <!-- 4. RODLAR -->
         <section id="section-gender" class="hidden space-y-6">
             <div class="bg-white/90 p-5 rounded-2xl border-2 border-indigo-100 shadow-sm flex flex-wrap justify-between items-center gap-2">
                 <div>
@@ -232,7 +280,7 @@ app_html = """
             </div>
         </section>
 
-        <!-- 4. MATNLAR -->
+        <!-- 5. MATNLAR -->
         <section id="section-texts" class="hidden space-y-4">
             <div class="bg-white/90 p-4 rounded-2xl border-2 border-sky-100 flex justify-between items-center">
                 <h2 class="text-lg font-black text-slate-800">50 коротких текстов для чтения</h2>
@@ -242,7 +290,7 @@ app_html = """
             <div class="flex justify-center gap-2 mt-4" id="texts-pagination"></div>
         </section>
 
-        <!-- 5. HARFLAR BO'YICHA VIKTORINA -->
+        <!-- 6. VIKTORINA -->
         <section id="section-quiz" class="hidden max-w-2xl mx-auto space-y-4">
             <div id="quiz-question-box" class="bg-white rounded-2xl p-6 border-2 border-rose-200 shadow-sm">
                 <div class="flex justify-between items-center pb-3 border-b mb-4">
@@ -289,14 +337,12 @@ app_html = """
             </div>
         </section>
 
-        <!-- 6. YANGI BO'LIM: 50 TA RASMLI TEST (2 VARIANTLI TANLOV, HAR VARIANTDA 25 SAVOL) -->
+        <!-- 7. RASMLI TEST (50 TA) -->
         <section id="section-picquiz" class="hidden max-w-2xl mx-auto space-y-4">
-            
-            <!-- Variant tanlash tugmalari -->
             <div class="bg-white rounded-2xl p-4 border-2 border-purple-200 shadow-sm flex flex-wrap justify-between items-center gap-2">
                 <div>
                     <h3 class="font-black text-purple-900 text-base">🖼️ Rasmli Test (Jami 50 ta savol)</h3>
-                    <p class="text-xs text-slate-500">Rasmdagi narsaning to'g'ri ruscha nomini tanlang (2 variantdan biri):</p>
+                    <p class="text-xs text-slate-500">Rasmdagi narsaning to'g'ri ruscha nomini tanlang:</p>
                 </div>
                 <div class="flex gap-2">
                     <button onclick="switchPicVariant(1)" id="btn-pic-var1" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-purple-600 text-white shadow">
@@ -308,37 +354,26 @@ app_html = """
                 </div>
             </div>
 
-            <!-- Rasmli test o'yin paneli -->
             <div id="picquiz-question-box" class="bg-white rounded-2xl p-6 border-2 border-purple-200 shadow-sm">
                 <div class="flex justify-between items-center pb-3 border-b mb-4">
-                    <span class="text-sm font-black text-slate-700">
-                        Savol: <span id="picquiz-num" class="text-purple-600 font-extrabold">1</span> / 25
-                    </span>
-                    <span class="text-sm font-black text-emerald-600">
-                        Ball: <span id="picquiz-score">0</span> / 50
-                    </span>
+                    <span class="text-sm font-black text-slate-700">Savol: <span id="picquiz-num" class="text-purple-600 font-extrabold">1</span> / 25</span>
+                    <span class="text-sm font-black text-emerald-600">Ball: <span id="picquiz-score">0</span> / 50</span>
                 </div>
-
                 <div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden mb-4">
                     <div id="picquiz-progress-bar" class="bg-purple-600 h-full w-[4%] transition-all"></div>
                 </div>
-
-                <!-- Rasm va ma'lumot -->
                 <div class="p-4 bg-slate-50 rounded-2xl text-center border flex flex-col items-center">
                     <div class="w-full max-w-[340px] h-52 rounded-xl overflow-hidden shadow-inner border-2 border-white mb-3 bg-slate-200">
                         <img id="picquiz-img" src="" alt="Test" class="w-full h-full object-cover">
                     </div>
                     <p id="picquiz-uz-hint" class="text-base font-extrabold text-slate-700 mb-2"></p>
                     <button onclick="playPicQuizAudio()" class="px-4 py-1.5 bg-purple-100 text-purple-700 hover:bg-purple-200 rounded-xl text-xs font-bold inline-flex items-center gap-1.5 transition">
-                        <i class="fas fa-volume-high"></i> To'g'ri talaffuzni eshitish
+                        <i class="fas fa-volume-high"></i> Tinglash
                     </button>
                 </div>
 
-                <!-- 2 TA VARIANT (A va B) -->
                 <div class="grid grid-cols-2 gap-4 mt-5" id="picquiz-options"></div>
-
                 <div id="picquiz-feedback" class="mt-3 text-center font-bold text-sm h-6"></div>
-
                 <div class="mt-4 flex justify-end">
                     <button id="picquiz-next-btn" onclick="goToNextPicQuestion()" disabled class="px-5 py-2 bg-slate-200 text-slate-400 rounded-xl font-bold text-xs transition cursor-not-allowed">
                         Keyingi rasm ➜
@@ -346,9 +381,8 @@ app_html = """
                 </div>
             </div>
 
-            <!-- Rasmli test natijasi -->
             <div id="picquiz-result-box" class="hidden bg-white rounded-2xl p-8 border-2 border-purple-300 text-center space-y-4">
-                <div class="w-20 h-20 mx-auto rounded-full bg-purple-600 text-white text-3xl flex items-center justify-center shadow-lg shadow-purple-200">
+                <div class="w-20 h-20 mx-auto rounded-full bg-purple-600 text-white text-3xl flex items-center justify-center shadow-lg">
                     <i class="fas fa-image"></i>
                 </div>
                 <h3 class="text-2xl font-black text-slate-800">Rasmli Test Yakunlandi!</h3>
@@ -364,7 +398,6 @@ app_html = """
                     </button>
                 </div>
             </div>
-
         </section>
 
     </main>
@@ -390,8 +423,148 @@ app_html = """
             }
         }
 
+        // ========================================================
+        // HARFLARNI QO'SHIB O'QISH MA'LUMOTLAR BAZASI
+        // ========================================================
+        
+        // 1-bosqich: 2 harfli bo'g'inlar (Слоги)
+        const syllablesLevel1 = [
+            { syl: "МА", uz: "M + A" }, { syl: "ПА", uz: "P + A" }, { syl: "БА", uz: "B + A" }, { syl: "ДА", uz: "D + A" },
+            { syl: "ТА", uz: "T + A" }, { syl: "НА", uz: "N + A" }, { syl: "РА", uz: "R + A" }, { syl: "СА", uz: "S + A" },
+            { syl: "МО", uz: "M + O" }, { syl: "ПО", uz: "P + O" }, { syl: "БО", uz: "B + O" }, { syl: "ДО", uz: "D + O" },
+            { syl: "КО", uz: "K + O" }, { syl: "ТО", uz: "T + O" }, { syl: "НО", uz: "N + O" }, { syl: "РО", uz: "R + O" },
+            { syl: "МУ", uz: "M + U" }, { syl: "ПУ", uz: "P + U" }, { syl: "БУ", uz: "B + U" }, { syl: "ДУ", uz: "D + U" },
+            { syl: "ЛУ", uz: "L + U" }, { syl: "РУ", uz: "R + U" }, { syl: "СУ", uz: "S + U" }, { syl: "ТУ", uz: "T + U" },
+            { syl: "МИ", uz: "M + I" }, { syl: "ЛИ", uz: "L + I" }, { syl: "СИ", uz: "S + I" }, { syl: "ЗИ", uz: "Z + I" },
+            { syl: "МЫ", uz: "M + Y" }, { syl: "БЫ", uz: "B + Y" }, { syl: "РЫ", uz: "R + Y" }, { syl: "СЫ", uz: "S + Y" }
+        ];
+
+        // 2-bosqich: Qisqa va sodda so'zlar (2, 3 va 4 harfli)
+        const syllablesLevel2 = [
+            { word: "ОН", syll: "ОН", uz: "U (erkak)" },
+            { word: "ОНА", syll: "О-НА", uz: "U (ayol)" },
+            { word: "ОНО", syll: "О-НО", uz: "U (o'rta)" },
+            { word: "МЫ", syll: "МЫ", uz: "Biz" },
+            { word: "ВЫ", syll: "ВЫ", uz: "Siz" },
+            { word: "ДА", syll: "ДА", uz: "Ha" },
+            { word: "НЕТ", syll: "НЕТ", uz: "Yo'q" },
+            { word: "ДОМ", syll: "ДОМ", uz: "Uy" },
+            { word: "КОТ", syll: "КОТ", uz: "Mushuk" },
+            { word: "СЫР", syll: "СЫР", uz: "Pishloq" },
+            { word: "САД", syll: "САД", uz: "Bog'" },
+            { word: "РОТ", syll: "РОТ", uz: "Og'iz" },
+            { word: "НОС", syll: "НОС", uz: "Burun" },
+            { word: "ЛЕС", syll: "ЛЕС", uz: "O'rmon" },
+            { word: "СОК", syll: "СОК", uz: "Sharbat" },
+            { word: "МАМА", syll: "МА-МА", uz: "Ona" },
+            { word: "ПАПА", syll: "ПА-ПА", uz: "Dada" },
+            { word: "РОЗА", syll: "РО-ЗА", uz: "Atirgul" },
+            { word: "КАША", syll: "КА-ША", uz: "Bo'tqa" },
+            { word: "ВОДА", syll: "ВО-ДА", uz: "Suv" },
+            { word: "РЫБА", syll: "РЫ-БА", uz: "Baliq" },
+            { word: "РУКА", syll: "РУ-КА", uz: "Qo'l" },
+            { word: "НОГА", syll: "НО-ГА", uz: "Oyoq" },
+            { word: "НЕБО", syll: "НЕ-БО", uz: "Osmon" },
+            { word: "ЛУНА", syll: "ЛУ-НА", uz: "Oy" }
+        ];
+
+        // 3-bosqich: Bo'g'inlarga ajratilgan o'rta va uzunroq so'zlar
+        const syllablesLevel3 = [
+            { word: "МАШИНА", syll: "МА - ШИ - НА", uz: "Mashina" },
+            { word: "МОЛОКО", syll: "МО - ЛО - КО", uz: "Sut" },
+            { word: "СОБАКА", syll: "СО - БА - КА", uz: "It" },
+            { word: "ДЕРЕВО", syll: "ДЕ - РЕ - ВО", uz: "Daraxt" },
+            { word: "ЯБЛОКО", syll: "ЯБ - ЛО - КО", uz: "Olma" },
+            { word: "ШКОЛА", syll: "ШКО - ЛА", uz: "Maktab" },
+            { word: "КНИГА", syll: "КНИ - ГА", uz: "Kitob" },
+            { word: "РУЧКА", syll: "РУЧ - КА", uz: "Ruchka" },
+            { word: "ТЕТРАДЬ", syll: "ТЕТ - РАДЬ", uz: "Daftar" },
+            { word: "ЛИМОН", syll: "ЛИ - МОН", uz: "Limon" },
+            { word: "АРБУЗ", syll: "АР - БУЗ", uz: "Tarvuz" },
+            { word: "БАБАН", syll: "БА - НАН", uz: "Banan" },
+            { word: "ГОРОД", syll: "ГО - РОД", uz: "Shahar" },
+            { word: "УЛИЦА", syll: "У - ЛИ - ЦА", uz: "Ko'cha" },
+            { word: "УЧЕНИК", syll: "У - ЧЕ - НИК", uz: "O'quvchi" },
+            { word: "УЧИТЕЛЬ", syll: "У - ЧИ - ТЕЛЬ", uz: "O'qituvchi" },
+            { word: "ДЕВОЧКА", syll: "ДЕ - ВОЧ - КА", uz: "Qizaloq" },
+            { word: "МАЛЬЧИК", syll: "МАЛЬ - ЧИК", uz: "O'g'il bola" },
+            { word: "ПОГОДА", syll: "ПО - ГО - ДА", uz: "Ob-havo" },
+            { word: "СОЛНЦЕ", syll: "СОЛН - ЦЕ", uz: "Quyosh" },
+            { word: "ЦВЕТОК", syll: "ЦВЕ - ТОК", uz: "Gul" },
+            { word: "КАРАНДАШ", syll: "КА - РАН - ДАШ", uz: "Qalam" },
+            { word: "КОМПЬЮТЕР", syll: "КОМ - ПЬЮ - ТЕР", uz: "Kompyuter" },
+            { word: "ТЕЛЕФОН", syll: "ТЕ - ЛЕ - ФОН", uz: "Telefon" }
+        ];
+
+        function renderSyllables() {
+            // Level 1: Slogi
+            const g1 = document.getElementById('syl-grid-level1');
+            g1.innerHTML = '';
+            syllablesLevel1.forEach(item => {
+                const card = document.createElement('div');
+                card.className = "p-3 bg-white hover:bg-teal-50 border-2 border-slate-100 hover:border-teal-400 rounded-2xl shadow-sm text-center cursor-pointer transition flex flex-col justify-between active:scale-95";
+                card.innerHTML = `
+                    <div class="text-2xl font-black text-teal-700">${item.syl}</div>
+                    <div class="text-[11px] font-bold text-slate-400 mt-1">${item.uz}</div>
+                `;
+                card.onclick = () => playSound(item.syl);
+                g1.appendChild(card);
+            });
+
+            // Level 2: Qisqa so'zlar
+            const g2 = document.getElementById('syl-grid-level2');
+            g2.innerHTML = '';
+            syllablesLevel2.forEach(item => {
+                const card = document.createElement('div');
+                card.className = "p-3.5 bg-white hover:bg-sky-50 border-2 border-slate-100 hover:border-sky-400 rounded-2xl shadow-sm cursor-pointer transition flex flex-col justify-between active:scale-95";
+                card.innerHTML = `
+                    <div class="flex justify-between items-center mb-1">
+                        <span class="text-xs font-black text-sky-600 bg-sky-100 px-2 py-0.5 rounded-lg">${item.syll}</span>
+                        <i class="fas fa-volume-high text-xs text-sky-500"></i>
+                    </div>
+                    <div class="text-xl font-black text-slate-800 my-1">${item.word}</div>
+                    <div class="text-xs font-semibold text-slate-400">${item.uz}</div>
+                `;
+                card.onclick = () => playSound(item.word);
+                g2.appendChild(card);
+            });
+
+            // Level 3: Bo'g'inli so'zlar
+            const g3 = document.getElementById('syl-grid-level3');
+            g3.innerHTML = '';
+            syllablesLevel3.forEach(item => {
+                const card = document.createElement('div');
+                card.className = "p-3.5 bg-white hover:bg-amber-50 border-2 border-slate-100 hover:border-amber-400 rounded-2xl shadow-sm cursor-pointer transition flex flex-col justify-between active:scale-95";
+                card.innerHTML = `
+                    <div class="flex justify-between items-center mb-1.5">
+                        <span class="text-sm font-black text-amber-600 bg-amber-50 px-2.5 py-0.5 rounded-lg border border-amber-200">${item.syll}</span>
+                        <i class="fas fa-volume-high text-xs text-amber-500"></i>
+                    </div>
+                    <div class="text-lg font-black text-slate-800 my-0.5">${item.word}</div>
+                    <div class="text-xs font-semibold text-slate-500">${item.uz}</div>
+                `;
+                card.onclick = () => playSound(item.word);
+                g3.appendChild(card);
+            });
+        }
+
+        function filterSyllableTab(lvl) {
+            ['level1', 'level2', 'level3'].forEach(l => {
+                document.getElementById(`syl-${l}-box`).classList.add('hidden');
+            });
+            document.getElementById('btn-syl-1').className = "px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-100 text-slate-700 hover:bg-slate-200";
+            document.getElementById('btn-syl-2').className = "px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-100 text-slate-700 hover:bg-slate-200";
+            document.getElementById('btn-syl-3').className = "px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-100 text-slate-700 hover:bg-slate-200";
+
+            document.getElementById(`syl-${lvl}-box`).classList.remove('hidden');
+
+            if (lvl === 'level1') document.getElementById('btn-syl-1').className = "px-3 py-1.5 rounded-xl text-xs font-bold bg-teal-600 text-white shadow";
+            if (lvl === 'level2') document.getElementById('btn-syl-2').className = "px-3 py-1.5 rounded-xl text-xs font-bold bg-sky-600 text-white shadow";
+            if (lvl === 'level3') document.getElementById('btn-syl-3').className = "px-3 py-1.5 rounded-xl text-xs font-bold bg-amber-600 text-white shadow";
+        }
+
         // ==========================================
-        // 50 TA RASMLI TEST BAZASI (INTERNET RASMLARI BILAN)
+        // 50 TA RASMLI TEST BAZASI
         // ==========================================
         const picQuiz50 = [
             // 1-VARIANT: 1 - 25
@@ -449,12 +622,7 @@ app_html = """
             { ru: "Бабочка", uz: "Bu nima? (Kapalak)", wrong: "Птица", img: "https://images.unsplash.com/photo-1559253664-ca249d4608c6?auto=format&fit=crop&w=600&q=80" }
         ];
 
-        let currentPicVariant = 1;
-        let picQuestions = [];
-        let currPicIdx = 0;
-        let picScore = 0;
-        let picCorrectCount = 0;
-        let isPicAnswered = false;
+        let currentPicVariant = 1, picQuestions = [], currPicIdx = 0, picScore = 0, picCorrectCount = 0, isPicAnswered = false;
 
         function switchPicVariant(v) {
             currentPicVariant = v;
@@ -464,14 +632,8 @@ app_html = """
         }
 
         function initPicVariantQuestions() {
-            if (currentPicVariant === 1) {
-                picQuestions = picQuiz50.slice(0, 25);
-            } else {
-                picQuestions = picQuiz50.slice(25, 50);
-            }
-            currPicIdx = 0;
-            picScore = 0;
-            picCorrectCount = 0;
+            picQuestions = currentPicVariant === 1 ? picQuiz50.slice(0, 25) : picQuiz50.slice(25, 50);
+            currPicIdx = 0; picScore = 0; picCorrectCount = 0;
             document.getElementById('picquiz-question-box').classList.remove('hidden');
             document.getElementById('picquiz-result-box').classList.add('hidden');
             loadPicQuestion(0);
@@ -480,11 +642,9 @@ app_html = """
         function loadPicQuestion(idx) {
             isPicAnswered = false;
             const item = picQuestions[idx];
-
             document.getElementById('picquiz-num').textContent = idx + 1;
             document.getElementById('picquiz-score').textContent = picScore;
             document.getElementById('picquiz-progress-bar').style.width = `${((idx + 1) / 25) * 100}%`;
-
             document.getElementById('picquiz-img').src = item.img;
             document.getElementById('picquiz-uz-hint').textContent = item.uz;
             document.getElementById('picquiz-feedback').textContent = '';
@@ -493,19 +653,16 @@ app_html = """
             nextBtn.disabled = true;
             nextBtn.className = "px-5 py-2 bg-slate-200 text-slate-400 rounded-xl font-bold text-xs transition cursor-not-allowed";
 
-            // 2 ta variant (1 ta to'g'ri, 1 ta xato)
             const opts = [item.ru, item.wrong].sort(() => 0.5 - Math.random());
             const optBox = document.getElementById('picquiz-options');
             optBox.innerHTML = '';
-
             const labels = ['A', 'B'];
+
             opts.forEach((text, i) => {
                 const btn = document.createElement('button');
                 btn.className = "pic-opt-btn p-4 bg-white border-2 border-slate-200 hover:border-purple-400 hover:bg-purple-50/50 rounded-2xl flex items-center gap-3 transition shadow-sm font-extrabold text-lg text-slate-800 active:scale-95";
                 btn.innerHTML = `
-                    <span class="w-8 h-8 rounded-xl bg-purple-100 text-purple-700 text-xs flex items-center justify-center font-black">
-                        ${labels[i]}
-                    </span>
+                    <span class="w-8 h-8 rounded-xl bg-purple-100 text-purple-700 text-xs flex items-center justify-center font-black">${labels[i]}</span>
                     <span class="flex-1 text-center font-black text-xl">${text}</span>
                 `;
                 btn.onclick = () => selectPicAnswer(text, btn, item);
@@ -513,22 +670,18 @@ app_html = """
             });
         }
 
-        function playPicQuizAudio() {
-            playSound(picQuestions[currPicIdx].ru);
-        }
+        function playPicQuizAudio() { playSound(picQuestions[currPicIdx].ru); }
 
         function selectPicAnswer(selectedText, btn, item) {
             if (isPicAnswered) return;
             isPicAnswered = true;
-
             const allBtns = document.querySelectorAll('.pic-opt-btn');
             allBtns.forEach(b => b.classList.add('cursor-default'));
 
             if (selectedText === item.ru) {
                 btn.className = "p-4 bg-emerald-500 border-2 border-emerald-600 rounded-2xl flex items-center gap-3 text-white shadow-md font-extrabold text-lg";
                 btn.querySelector('span').className = "w-8 h-8 rounded-xl bg-emerald-600 text-white text-xs flex items-center justify-center font-black";
-                picScore += 2;
-                picCorrectCount++;
+                picScore += 2; picCorrectCount++;
                 document.getElementById('picquiz-score').textContent = picScore;
                 document.getElementById('picquiz-feedback').className = "mt-3 text-center font-bold text-sm h-6 text-emerald-600";
                 document.getElementById('picquiz-feedback').textContent = `✔ To'g'ri! (+2 ball): ${item.ru}`;
@@ -536,14 +689,12 @@ app_html = """
             } else {
                 btn.className = "p-4 bg-rose-500 border-2 border-rose-600 rounded-2xl flex items-center gap-3 text-white shadow-md font-extrabold text-lg";
                 btn.querySelector('span').className = "w-8 h-8 rounded-xl bg-rose-600 text-white text-xs flex items-center justify-center font-black";
-
                 allBtns.forEach(b => {
                     if (b.innerText.includes(item.ru)) {
                         b.className = "p-4 bg-emerald-500 border-2 border-emerald-600 rounded-2xl flex items-center gap-3 text-white shadow-md font-extrabold text-lg";
                         b.querySelector('span').className = "w-8 h-8 rounded-xl bg-emerald-600 text-white text-xs flex items-center justify-center font-black";
                     }
                 });
-
                 document.getElementById('picquiz-feedback').className = "mt-3 text-center font-bold text-sm h-6 text-rose-500";
                 document.getElementById('picquiz-feedback').textContent = `✖ Noto'g'ri! To'g'ri javob: ${item.ru}`;
                 playSound(`Неправильно. Это ${item.ru}`);
@@ -555,45 +706,27 @@ app_html = """
         }
 
         function goToNextPicQuestion() {
-            if (currPicIdx < 24) {
-                currPicIdx++;
-                loadPicQuestion(currPicIdx);
-            } else {
-                showPicResult();
-            }
+            if (currPicIdx < 24) { currPicIdx++; loadPicQuestion(currPicIdx); }
+            else showPicResult();
         }
 
         function showPicResult() {
             document.getElementById('picquiz-question-box').classList.add('hidden');
-            const resBox = document.getElementById('picquiz-result-box');
-            resBox.classList.remove('hidden');
-
+            document.getElementById('picquiz-result-box').classList.remove('hidden');
             document.getElementById('picres-total-score').textContent = `${picScore} / 50`;
             document.getElementById('picres-correct-count').textContent = picCorrectCount;
             document.getElementById('picres-wrong-count').textContent = 25 - picCorrectCount;
-
             const b = document.getElementById('picres-grade-badge');
-            if (picScore >= 44) {
-                b.className = "inline-block px-4 py-2 rounded-xl text-xs font-bold bg-emerald-100 text-emerald-800";
-                b.textContent = "A'lo! Barcha rasmlarni juda yaxshi o'zlashtirdingiz (5 Baho)";
-            } else if (picScore >= 34) {
-                b.className = "inline-block px-4 py-2 rounded-xl text-xs font-bold bg-sky-100 text-sky-800";
-                b.textContent = "Yaxshi natija! (4 Baho)";
-            } else if (picScore >= 24) {
-                b.className = "inline-block px-4 py-2 rounded-xl text-xs font-bold bg-amber-100 text-amber-800";
-                b.textContent = "Qoniqarli (3 Baho)";
-            } else {
-                b.className = "inline-block px-4 py-2 rounded-xl text-xs font-bold bg-rose-100 text-rose-800";
-                b.textContent = "Qaytadan urinib ko'ring!";
-            }
+            if (picScore >= 44) { b.className = "inline-block px-4 py-2 rounded-xl text-xs font-bold bg-emerald-100 text-emerald-800"; b.textContent = "A'lo! (5 Baho)"; }
+            else if (picScore >= 34) { b.className = "inline-block px-4 py-2 rounded-xl text-xs font-bold bg-sky-100 text-sky-800"; b.textContent = "Yaxshi! (4 Baho)"; }
+            else if (picScore >= 24) { b.className = "inline-block px-4 py-2 rounded-xl text-xs font-bold bg-amber-100 text-amber-800"; b.textContent = "Qoniqarli (3 Baho)"; }
+            else { b.className = "inline-block px-4 py-2 rounded-xl text-xs font-bold bg-rose-100 text-rose-800"; b.textContent = "Qaytadan topshiring!"; }
         }
 
-        function restartCurrentPicVariant() {
-            initPicVariantQuestions();
-        }
+        function restartCurrentPicVariant() { initPicVariantQuestions(); }
 
         // ==========================================
-        // ALIFBO, CANVAS, RODLAR VA ESKI VIKTORINA
+        // ESKI FUNKSIYALAR: ALIFBO, CANVAS, RODLAR, MATNLAR
         // ==========================================
         const lettersData = [
             { char: 'А', small: 'а', type: 'unli', word: 'Арбуз', uz: 'Tarvuz', img: 'https://images.unsplash.com/photo-1587049352846-4a222e784d38?auto=format&fit=crop&w=400&q=80' },
@@ -845,13 +978,13 @@ app_html = """
         }
 
         function switchTab(tabId) {
-            ['alphabet', 'write', 'gender', 'texts', 'quiz', 'picquiz'].forEach(t => {
+            ['alphabet', 'write', 'syllables', 'gender', 'texts', 'quiz', 'picquiz'].forEach(t => {
                 document.getElementById(`section-${t}`).classList.add('hidden');
-                document.getElementById(`tab-${t}`).className = "px-3.5 py-2 rounded-xl text-xs sm:text-sm font-extrabold bg-white text-slate-600 hover:bg-slate-100";
+                document.getElementById(`tab-${t}`).className = "px-3 py-2 rounded-xl text-xs sm:text-sm font-extrabold bg-white text-slate-600 hover:bg-slate-100";
             });
             document.getElementById(`section-${tabId}`).classList.remove('hidden');
-            const color = tabId === 'alphabet' ? 'bg-emerald-500' : (tabId === 'write' ? 'bg-amber-500' : (tabId === 'gender' ? 'bg-indigo-500' : (tabId === 'texts' ? 'bg-sky-500' : (tabId === 'quiz' ? 'bg-rose-500' : 'bg-purple-600'))));
-            document.getElementById(`tab-${tabId}`).className = `px-3.5 py-2 rounded-xl text-xs sm:text-sm font-extrabold ${color} text-white shadow-md`;
+            const color = tabId === 'alphabet' ? 'bg-emerald-500' : (tabId === 'write' ? 'bg-amber-500' : (tabId === 'syllables' ? 'bg-teal-600' : (tabId === 'gender' ? 'bg-indigo-500' : (tabId === 'texts' ? 'bg-sky-500' : (tabId === 'quiz' ? 'bg-rose-500' : 'bg-purple-600')))));
+            document.getElementById(`tab-${tabId}`).className = `px-3 py-2 rounded-xl text-xs sm:text-sm font-extrabold ${color} text-white shadow-md`;
             
             if (tabId === 'quiz' && quizSessionQuestions.length === 0) startQuizSession();
             if (tabId === 'picquiz' && picQuestions.length === 0) initPicVariantQuestions();
@@ -936,7 +1069,7 @@ app_html = """
             }
         }
 
-        // ESKI HARF VIKTORINASI
+        // ESKI HARF TESTI
         let quizSessionQuestions = [], currQIdx = 0, quizScore = 0, correctCount = 0, isAns = false;
         function startQuizSession() {
             quizSessionQuestions = [...quizWords200].sort(() => 0.5 - Math.random()).slice(0, 50);
@@ -1016,6 +1149,7 @@ app_html = """
         window.addEventListener('DOMContentLoaded', () => {
             renderAlphabet();
             initCanvas();
+            renderSyllables();
             renderGenderSentences();
             renderTexts(1);
         });
@@ -1025,4 +1159,4 @@ app_html = """
 """
 
 # 4. Saytni chiqarish
-components.html(app_html, height=1250, scrolling=True)
+components.html(app_html, height=1300, scrolling=True)
